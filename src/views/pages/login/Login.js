@@ -12,9 +12,13 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CCardImage,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+
+// Import Logo
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png'
 
 const Login = () => {
   return (
@@ -23,10 +27,15 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md={8}>
             <CCardGroup>
-              <CCard className="p-4">
+              <CCard className="mx-4 p-4">
+                <CCardImage
+                  orientation="top"
+                  src={ABCAllLogo}
+                  style={{ width: 100, margin: '0 auto' }}
+                />
                 <CCardBody>
                   <CForm>
-                    <h1>Login</h1>
+                    <h3>Login</h3>
                     <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
