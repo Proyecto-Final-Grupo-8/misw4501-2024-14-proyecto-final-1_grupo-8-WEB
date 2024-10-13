@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.DOCKER_IMAGE_URL }}:latest 
+          docker build -t ${{ env.DOCKER_IMAGE_URL }}:latest .
 
       - name: Push Docker image to Artifact Registry
         run: |
