@@ -61,11 +61,6 @@ const Login = () => {
                         <CButton color="primary" className="px-4" style={{ marginRight: '1.5rem' }}>
                           Login
                         </CButton>
-                        <Link to="/register">
-                          <CButton color="secondary" className="px-4">
-                            Create Account
-                          </CButton>
-                        </Link>
                       </CCol>
                     </CRow>
                   </CForm>
