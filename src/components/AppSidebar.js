@@ -18,11 +18,22 @@ import { sygnet } from 'src/assets/brand/sygnet'
 
 // sidebar nav config
 import navigation from '../_nav'
+import { useLocation } from 'react-router-dom'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  // Get Location
+  const s_location = useLocation()
+  console.log('s_location', s_location)
+
+  const a_hideLocation = ['/']
+
+  if (a_hideLocation.includes(s_location.pathname)) {
+    return null
+  }
 
   return (
     <CSidebar
