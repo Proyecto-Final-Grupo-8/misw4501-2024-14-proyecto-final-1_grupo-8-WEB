@@ -8,12 +8,15 @@ import {
   CSidebarFooter,
   CSidebarHeader,
   CSidebarToggler,
+  CCardImage,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import { AppSidebarNav } from './AppSidebarNav'
 
-import { logo } from 'src/assets/brand/logo'
+// Import Logo
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo-name.png'
+
 import { sygnet } from 'src/assets/brand/sygnet'
 
 // sidebar nav config
@@ -46,9 +49,9 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarHeader className="border-bottom">
+      <CSidebarHeader className="border-bottom" style={{ justifyContent: 'center' }}>
         <CSidebarBrand to="/">
-          <CIcon customClassName="sidebar-brand-full" icon={logo} height={32} />
+          <CCardImage orientation="top" src={ABCAllLogo} style={{ width: 100, margin: '0 auto' }} />
           <CIcon customClassName="sidebar-brand-narrow" icon={sygnet} height={32} />
         </CSidebarBrand>
         <CCloseButton
