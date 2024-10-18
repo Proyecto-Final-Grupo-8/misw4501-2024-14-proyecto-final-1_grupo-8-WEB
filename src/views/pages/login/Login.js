@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   CButton,
   CCard,
@@ -18,37 +18,41 @@ import {
   CToastBody,
   CToastHeader,
   CToaster,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilLockLocked, cilUser } from '@coreui/icons';
 
 // Import Logo
-import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png'
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png';
 
-const s_apiUrl = 'https://backend-781163639586.us-central1.run.app/api/'
+const s_apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false)
-  const [toastVisible, setToastVisible] = useState(false) // Toast visibility state
-  const [toastMessage, setToastMessage] = useState('') // Toast message state
+  const [loading, setLoading] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false); // Toast visibility state
+  const [toastMessage, setToastMessage] = useState(''); // Toast message state
+
+  if (sessionStorage.getItem('loginData')) {
+    window.location.href = '/#/dashboard';
+  }
 
   const login = async () => {
     try {
-      setLoading(true)
-      setToastVisible(false) // Hide toast before trying login
+      setLoading(true);
+      setToastVisible(false); // Hide toast before trying login
 
       // Get the input values
-      const s_username = document.getElementById('username').value
-      const s_password = document.getElementById('password').value
+      const s_username = document.getElementById('username').value;
+      const s_password = document.getElementById('password').value;
 
       // Build headers and request body
-      const myHeaders = new Headers()
-      myHeaders.append('Content-Type', 'application/json')
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
 
       const raw = JSON.stringify({
         username: s_username,
         password: s_password,
-      })
+      });
 
       // Set up request options
       const requestOptions = {
@@ -56,27 +60,28 @@ const Login = () => {
         headers: myHeaders,
         body: raw,
         redirect: 'follow',
-      }
+      };
 
       // Make the fetch request
-      const o_response = await fetch(s_apiUrl + 'login', requestOptions)
+      const o_response = await fetch(s_apiUrl + 'login', requestOptions);
 
       // Check if response is okay
       if (!o_response.ok) {
-        throw new Error('Invalid credentials, please try again.')
+        throw new Error('Invalid credentials, please try again.');
       }
 
       // Assuming the response is JSON, parse it
-      const result = await o_response.json()
-      console.log('Login successful:', result)
+      const result = await o_response.json();
+      sessionStorage.setItem('loginData', JSON.stringify(result));
+      window.location.href = '/#/dashboard';
     } catch (error) {
       // Show error toast if login fails
-      setToastMessage('Login failed! Please check your credentials.')
-      setToastVisible(true)
+      setToastMessage('Login failed! Please check your credentials.');
+      setToastVisible(true);
     } finally {
-      setLoading(false) // Hide spinner after request completes
+      setLoading(false); // Hide spinner after request completes
     }
-  }
+  };
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
@@ -161,7 +166,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

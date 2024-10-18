@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   CButton,
   CCard,
@@ -11,12 +11,12 @@ import {
   CInputGroupText,
   CRow,
   CCardImage,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilLockLocked, cilUser } from '@coreui/icons';
 
 // Import Logo
-import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png'
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png';
 
 const Register = () => {
   return (
@@ -72,7 +72,7 @@ const Register = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

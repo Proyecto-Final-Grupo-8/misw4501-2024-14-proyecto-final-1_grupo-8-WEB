@@ -1,5 +1,5 @@
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
   CCloseButton,
@@ -9,34 +9,34 @@ import {
   CSidebarHeader,
   CSidebarToggler,
   CCardImage,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
 
-import { AppSidebarNav } from './AppSidebarNav'
+import { AppSidebarNav } from './AppSidebarNav';
 
 // Import Logo
-import ABCAllLogo from 'src/assets/images/logos/abcall-logo-name.png'
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo-name.png';
 
-import { sygnet } from 'src/assets/brand/sygnet'
+import { sygnet } from 'src/assets/brand/sygnet';
 
 // sidebar nav config
-import navigation from '../_nav'
-import { useLocation } from 'react-router-dom'
+import navigation from '../_nav';
+import { useLocation } from 'react-router-dom';
 
 const AppSidebar = () => {
-  const dispatch = useDispatch()
-  const unfoldable = useSelector((state) => state.sidebarUnfoldable)
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const dispatch = useDispatch();
+  const unfoldable = useSelector((state) => state.sidebarUnfoldable);
+  const sidebarShow = useSelector((state) => state.sidebarShow);
 
   // Get Location
-  const s_location = useLocation()
-  console.log('s_location', s_location)
+  const s_location = useLocation();
+  console.log('s_location', s_location);
 
-  const a_hideLocation = ['/']
+  const a_hideLocation = ['/login'];
 
-  if (a_hideLocation.includes(s_location.pathname)) {
-    return null
-  }
+  // if (a_hideLocation.includes(s_location.pathname)) {
+  //   return null;
+  // }
 
   return (
     <CSidebar
@@ -46,7 +46,7 @@ const AppSidebar = () => {
       unfoldable={unfoldable}
       visible={sidebarShow}
       onVisibleChange={(visible) => {
-        dispatch({ type: 'set', sidebarShow: visible })
+        dispatch({ type: 'set', sidebarShow: visible });
       }}
     >
       <CSidebarHeader className="border-bottom" style={{ justifyContent: 'center' }}>
@@ -67,7 +67,7 @@ const AppSidebar = () => {
         />
       </CSidebarFooter>
     </CSidebar>
-  )
-}
+  );
+};
 
-export default React.memo(AppSidebar)
+export default React.memo(AppSidebar);
