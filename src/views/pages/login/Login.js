@@ -12,9 +12,13 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CCardImage,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+
+// Import Logo
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png'
 
 const Login = () => {
   return (
@@ -23,10 +27,15 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md={8}>
             <CCardGroup>
-              <CCard className="p-4">
+              <CCard className="mx-4 p-4">
+                <CCardImage
+                  orientation="top"
+                  src={ABCAllLogo}
+                  style={{ width: 100, margin: '0 auto' }}
+                />
                 <CCardBody>
                   <CForm>
-                    <h1>Login</h1>
+                    <h3>Login</h3>
                     <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
@@ -34,7 +43,7 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput placeholder="Username" autoComplete="username" />
                     </CInputGroup>
-                    <CInputGroup className="mb-4">
+                    <CInputGroup className="mb-1">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
@@ -44,35 +53,17 @@ const Login = () => {
                         autoComplete="current-password"
                       />
                     </CInputGroup>
+                    <CButton color="link" className="px-0 mb-4">
+                      Forgot password?
+                    </CButton>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" style={{ marginRight: '1.5rem' }}>
                           Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
                         </CButton>
                       </CCol>
                     </CRow>
                   </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
                 </CCardBody>
               </CCard>
             </CCardGroup>

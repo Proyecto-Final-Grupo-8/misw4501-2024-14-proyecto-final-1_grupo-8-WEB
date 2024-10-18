@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -34,6 +34,14 @@ const AppHeader = () => {
 
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  // Get Location
+  const s_location = useLocation()
+  const a_hideLocation = ['/']
+
+  if (a_hideLocation.includes(s_location.pathname)) {
+    return null
+  }
 
   useEffect(() => {
     document.addEventListener('scroll', () => {

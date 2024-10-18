@@ -10,9 +10,13 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CCardImage,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+
+// Import Logo
+import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png'
 
 const Register = () => {
   return (
@@ -20,10 +24,15 @@ const Register = () => {
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={9} lg={7} xl={6}>
-            <CCard className="mx-4">
+            <CCard className="mx-4 p-4">
+              <CCardImage
+                orientation="top"
+                src={ABCAllLogo}
+                style={{ width: 100, margin: '0 auto' }}
+              />
               <CCardBody className="p-4">
                 <CForm>
-                  <h1>Register</h1>
+                  <h3>Register</h3>
                   <p className="text-body-secondary">Create your account</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -55,9 +64,7 @@ const Register = () => {
                       autoComplete="new-password"
                     />
                   </CInputGroup>
-                  <div className="d-grid">
-                    <CButton color="success">Create Account</CButton>
-                  </div>
+                  <CButton color="primary">Create Account</CButton>
                 </CForm>
               </CCardBody>
             </CCard>
