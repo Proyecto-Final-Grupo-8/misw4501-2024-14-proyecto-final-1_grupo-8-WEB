@@ -1,5 +1,5 @@
-import React from 'react'
-import classNames from 'classnames'
+import React from 'react';
+import classNames from 'classnames';
 
 import {
   CAvatar,
@@ -18,8 +18,8 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
 import {
   cibCcAmex,
   cibCcApplePay,
@@ -41,18 +41,18 @@ import {
   cilPeople,
   cilUser,
   cilUserFemale,
-} from '@coreui/icons'
+} from '@coreui/icons';
 
-import avatar1 from 'src/assets/images/avatars/1.jpg'
-import avatar2 from 'src/assets/images/avatars/2.jpg'
-import avatar3 from 'src/assets/images/avatars/3.jpg'
-import avatar4 from 'src/assets/images/avatars/4.jpg'
-import avatar5 from 'src/assets/images/avatars/5.jpg'
-import avatar6 from 'src/assets/images/avatars/6.jpg'
+import avatar1 from 'src/assets/images/avatars/1.jpg';
+import avatar2 from 'src/assets/images/avatars/2.jpg';
+import avatar3 from 'src/assets/images/avatars/3.jpg';
+import avatar4 from 'src/assets/images/avatars/4.jpg';
+import avatar5 from 'src/assets/images/avatars/5.jpg';
+import avatar6 from 'src/assets/images/avatars/6.jpg';
 
-import WidgetsBrand from '../widgets/WidgetsBrand'
-import WidgetsDropdown from '../widgets/WidgetsDropdown'
-import MainChart from './MainChart'
+import WidgetsBrand from '../widgets/WidgetsBrand';
+import WidgetsDropdown from '../widgets/WidgetsDropdown';
+import MainChart from './MainChart';
 
 const Dashboard = () => {
   const progressExample = [
@@ -61,7 +61,7 @@ const Dashboard = () => {
     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  ]
+  ];
 
   const progressGroupExample1 = [
     { title: 'Monday', value1: 34, value2: 78 },
@@ -71,19 +71,19 @@ const Dashboard = () => {
     { title: 'Friday', value1: 22, value2: 73 },
     { title: 'Saturday', value1: 53, value2: 82 },
     { title: 'Sunday', value1: 9, value2: 69 },
-  ]
+  ];
 
   const progressGroupExample2 = [
     { title: 'Male', icon: cilUser, value: 53 },
     { title: 'Female', icon: cilUserFemale, value: 43 },
-  ]
+  ];
 
   const progressGroupExample3 = [
     { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
     { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
     { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
-  ]
+  ];
 
   const tableExample = [
     {
@@ -174,7 +174,7 @@ const Dashboard = () => {
       payment: { name: 'Amex', icon: cibCcAmex },
       activity: 'Last week',
     },
-  ]
+  ];
 
   return (
     <>
@@ -381,7 +381,7 @@ const Dashboard = () => {
         </CCol>
       </CRow>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
