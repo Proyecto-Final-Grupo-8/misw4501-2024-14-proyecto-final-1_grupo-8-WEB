@@ -122,6 +122,7 @@ const Login = () => {
                     <CRow>
                       <CCol xs={6}>
                         <CButton
+                          data-testid="login-btn"
                           onClick={login}
                           color="primary"
                           className="px-4"
