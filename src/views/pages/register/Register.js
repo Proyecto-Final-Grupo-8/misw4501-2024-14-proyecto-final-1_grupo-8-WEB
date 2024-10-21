@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CButton,
   CCard,
@@ -28,9 +28,35 @@ const s_apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [companies, setCompanies] = useState([]); // State to hold the companies list
   const [toastVisible, setToastVisible] = useState(false); // Toast visibility state
   const [toastMessage, setToastMessage] = useState(''); // Toast message state
   const [toastColor, setToastColor] = useState('danger'); // Toast color state
+
+  // Fetch companies when component mounts
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch(s_apiUrl + 'companies', {
+          method: 'GET',
+          redirect: 'follow',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch companies');
+        }
+
+        const result = await response.json();
+        setCompanies(result); // Save companies to state
+      } catch (error) {
+        setToastMessage('Error fetching companies. Please try again.');
+        setToastColor('danger');
+        setToastVisible(true);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
 
   const register = async () => {
     try {
@@ -39,7 +65,7 @@ const Register = () => {
 
       const s_username = document.getElementById('username').value;
       const s_role = document.getElementById('role').value;
-      const s_company = document.getElementById('company').value;
+      const s_company = document.getElementById('company_id').value;
       const s_password = document.getElementById('password').value;
       const s_confirmPassword = document.getElementById('confirmPassword').value;
 
@@ -67,7 +93,7 @@ const Register = () => {
       const raw = JSON.stringify({
         username: s_username,
         role: s_role,
-        company: s_company,
+        company_id: s_company,
         password: s_password,
       });
 
@@ -134,18 +160,21 @@ const Register = () => {
                       <CIcon icon={cilUserPlus}/>
                     </CInputGroupText>
                     <CFormSelect id="role">
-                      <option value="cliente">Cliente</option>
-                      <option value="analista">Analista</option>
+                      <option value="customer">Customer</option>
+                      <option value="analyst">Analyst</option>
                     </CFormSelect>
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilIndustry}/>
                     </CInputGroupText>
-                    <CFormSelect id="company">
+                    <CFormSelect id="company_id">
                       <option value="">Select a Company</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
+                      {companies.map((company) => (
+                        <option key={company.id} value={company.id}>
+                          {company.name}
+                        </option>
+                      ))}
                     </CFormSelect>
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -180,7 +209,7 @@ const Register = () => {
             <CToaster
               push={
                 toastVisible ? (
-                  <CToast autohide={true} visible={toastVisible} color={toastColor}>
+                  <CToast key={new Date().getTime()} autohide={false} visible={toastVisible} color={toastColor}>
                     <CToastHeader closeButton>
                       <svg
                         className="rounded me-2"

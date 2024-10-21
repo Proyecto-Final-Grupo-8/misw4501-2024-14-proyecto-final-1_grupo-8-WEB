@@ -140,7 +140,7 @@ const Login = () => {
             <CToaster
               push={
                 toastVisible ? (
-                  <CToast autohide={true} visible={toastVisible} color="danger">
+                  <CToast key={new Date().getTime()} autohide={true} visible={toastVisible} color="danger">
                     <CToastHeader closeButton>
                       <svg
                         className="rounded me-2"
