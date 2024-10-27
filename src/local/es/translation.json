@@ -1,0 +1,29 @@
+{
+  "login": {
+    "title": "Iniciar Sesión",
+    "description": "Inicia sesión en tu cuenta",
+    "username_placeholder": "Usuario",
+    "password_placeholder": "Contraseña",
+    "login_button": "Iniciar Sesión",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "error_message": "¡Inicio de sesión fallido! Verifica tus credenciales.",
+    "error_title": "Error de Inicio de Sesión"
+  },
+  "register": {
+    "title": "Registro",
+    "description": "Crea tu cuenta",
+    "username_placeholder": "Usuario",
+    "role_placeholder": "Seleccionar Rol",
+    "company_placeholder": "Selecciona una Empresa",
+    "password_placeholder": "Contraseña",
+    "confirm_password_placeholder": "Confirmar Contraseña",
+    "register_button": "Crear Cuenta",
+    "fetch_companies_error": "Error al obtener las empresas. Inténtalo de nuevo.",
+    "validation_error": "¡Por favor completa todos los campos!",
+    "password_mismatch": "¡Las contraseñas no coinciden!",
+    "success_message": "¡Registro exitoso! Redirigiendo...",
+    "error_message": "¡Registro fallido! Inténtalo de nuevo.",
+    "success_title": "Éxito",
+    "error_title": "Error de Registro"
+  }
+}

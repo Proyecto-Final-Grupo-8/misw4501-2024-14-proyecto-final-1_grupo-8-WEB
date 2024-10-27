@@ -1,3 +1,2 @@
-import AppHeaderDropdown from './AppHeaderDropdown'
-
-export { AppHeaderDropdown }
+import AppHeaderDropdown from './AppHeaderDropdown';
+export { AppHeaderDropdown };

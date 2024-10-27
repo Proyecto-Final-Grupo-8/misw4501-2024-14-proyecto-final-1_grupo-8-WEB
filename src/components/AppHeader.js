@@ -27,6 +27,7 @@ import {
 
 import { AppBreadcrumb } from './index';
 import { AppHeaderDropdown } from './header/index';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const AppHeader = () => {
   const headerRef = useRef();
@@ -73,6 +74,7 @@ const AppHeader = () => {
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
+          <LanguageSwitcher />
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilBell} size="lg" />

@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { CSpinner, useColorModes } from '@coreui/react';
 import './scss/style.scss';
 
+import './i18n';
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
 

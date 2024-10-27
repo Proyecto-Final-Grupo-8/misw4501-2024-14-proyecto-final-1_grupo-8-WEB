@@ -1,0 +1,29 @@
+{
+  "login": {
+    "title": "Login",
+    "description": "Sign In to your account",
+    "username_placeholder": "Username",
+    "password_placeholder": "Password",
+    "login_button": "Login",
+    "forgot_password": "Forgot password?",
+    "error_message": "Login failed! Please check your credentials.",
+    "error_title": "Login Error"
+  },
+  "register": {
+    "title": "Register",
+    "description": "Create your account",
+    "username_placeholder": "Username",
+    "role_placeholder": "Select Role",
+    "company_placeholder": "Select a Company",
+    "password_placeholder": "Password",
+    "confirm_password_placeholder": "Confirm Password",
+    "register_button": "Create Account",
+    "fetch_companies_error": "Error fetching companies. Please try again.",
+    "validation_error": "Please fill out all fields!",
+    "password_mismatch": "Passwords do not match!",
+    "success_message": "Registration successful! Redirecting...",
+    "error_message": "Registration failed! Please try again.",
+    "success_title": "Success",
+    "error_title": "Registration Error"
+  }
+}
