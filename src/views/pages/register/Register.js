@@ -19,7 +19,7 @@ import {
   CSpinner,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser, cilUserPlus, cilIndustry } from '@coreui/icons';
+import { cilLockLocked, cilUser, cilUserPlus, cilIndustry, cilEnvelopeClosed, cilScreenSmartphone } from '@coreui/icons';
 
 // Import Logo
 import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png';
@@ -68,9 +68,13 @@ const Register = () => {
       const s_company = document.getElementById('company_id').value;
       const s_password = document.getElementById('password').value;
       const s_confirmPassword = document.getElementById('confirmPassword').value;
+      const s_name = document.getElementById('name').value;
+      const s_lastName = document.getElementById('last_name').value;
+      const s_email = document.getElementById('email').value;
+      const s_phone = document.getElementById('phone').value;
 
       // Validate inputs
-      if (!s_username || !s_role || !s_company || !s_password || !s_confirmPassword) {
+      if (!s_username || !s_role || !s_company || !s_password || !s_confirmPassword || !s_email || !s_lastName) {
         setToastMessage('Please fill out all fields!');
         setToastColor('danger');
         setToastVisible(true);
@@ -92,6 +96,10 @@ const Register = () => {
 
       const raw = JSON.stringify({
         username: s_username,
+        name: s_name,
+        last_name: s_lastName,
+        phone: s_phone,
+        email: s_email,
         role: s_role,
         company_id: s_company,
         password: s_password,
@@ -154,6 +162,30 @@ const Register = () => {
                       placeholder="Username"
                       autoComplete="username"
                     />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput id="name" placeholder="Name" autoComplete="name" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput id="last_name" placeholder="Last Name" autoComplete="last_name" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilEnvelopeClosed} />
+                    </CInputGroupText>
+                    <CFormInput id="email" placeholder="Email" autoComplete="email" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilScreenSmartphone} />
+                    </CInputGroupText>
+                    <CFormInput id="phone" placeholder="Phone" autoComplete="phone" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
