@@ -1,8 +1,27 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import WidgetsDropdown from '../widgets/WidgetsDropdown';
-import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle, CForm, CFormInput, CFormLabel, CFormTextarea, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from '@coreui/react';
+import {
+  CButton,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+  CForm,
+  CFormInput,
+  CFormLabel,
+  CFormTextarea,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
+} from '@coreui/react';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -34,8 +53,8 @@ const Dashboard = () => {
         <CTableHead>
           <CTableRow>
             <CTableHeaderCell scope="col">#</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Name</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Description</CTableHeaderCell>
+            <CTableHeaderCell scope="col">{t('Name')}</CTableHeaderCell>
+            <CTableHeaderCell scope="col">{t('Description')}</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -50,36 +69,38 @@ const Dashboard = () => {
       </CTable>
       <CModal visible={modalVisible} onClose={() => setModalVisible(false)} alignment="center">
         <CModalHeader>
-          <CModalTitle>New Issue</CModalTitle>
+          <CModalTitle>{t('New issue')}</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CForm>
             <div className="mb-3">
-              <CFormLabel htmlFor="issueName">Name</CFormLabel>
+              <CFormLabel htmlFor="issueName">{t('Name')}</CFormLabel>
               <CFormInput
                 type="text"
                 id="issueName"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter issue name"
+                placeholder={t('Enter issue name')}
               />
             </div>
             <div className="mb-3">
-              <CFormLabel htmlFor="issueDescription">Description</CFormLabel>
+              <CFormLabel htmlFor="issueDescription">{t('Description')}</CFormLabel>
               <CFormTextarea
                 id="issueDescription"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter issue description"
+                placeholder={t('Enter issue description')}
               />
             </div>
           </CForm>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setModalVisible(false)}>
-            Close
+            {t('Close')}
           </CButton>
-          <CButton color="primary" onClick={handleSaveIssue}>Save changes</CButton>
+          <CButton color="primary" onClick={handleSaveIssue}>
+            {t('Save changes')}
+          </CButton>
         </CModalFooter>
       </CModal>
     </>

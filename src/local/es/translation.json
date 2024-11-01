@@ -1,29 +1,21 @@
 {
-  "login": {
-    "title": "Iniciar Sesión",
-    "description": "Inicia sesión en tu cuenta",
-    "username_placeholder": "Usuario",
-    "password_placeholder": "Contraseña",
-    "login_button": "Iniciar Sesión",
-    "forgot_password": "¿Olvidaste tu contraseña?",
-    "error_message": "¡Inicio de sesión fallido! Verifica tus credenciales.",
-    "error_title": "Error de Inicio de Sesión"
-  },
-  "register": {
-    "title": "Registro",
-    "description": "Crea tu cuenta",
-    "username_placeholder": "Usuario",
-    "role_placeholder": "Seleccionar Rol",
-    "company_placeholder": "Selecciona una Empresa",
-    "password_placeholder": "Contraseña",
-    "confirm_password_placeholder": "Confirmar Contraseña",
-    "register_button": "Crear Cuenta",
-    "fetch_companies_error": "Error al obtener las empresas. Inténtalo de nuevo.",
-    "validation_error": "¡Por favor completa todos los campos!",
-    "password_mismatch": "¡Las contraseñas no coinciden!",
-    "success_message": "¡Registro exitoso! Redirigiendo...",
-    "error_message": "¡Registro fallido! Inténtalo de nuevo.",
-    "success_title": "Éxito",
-    "error_title": "Error de Registro"
-  }
+  "dashboard": "Tablero",
+  "users": "Usuarios",
+  "settings": "Configuración",
+  "income": "Ingresos",
+  "conversion_rate": "Tasa de Conversión",
+  "sessions": "Sesiones",
+  "create_user": "Crear Usuario",
+  "issues": "Problemas",
+  "New": "Nuevo",
+  "New issue": "Nuevo Problema",
+  "Description": "Descripción",
+  "Home": "Casa",
+  "Gestion": "Management",
+  "Name": "Nombre",
+  "Save changes": "Guardar Cambios",
+  "Close": "Cerrar",
+  "Enter issue name": "Ingrese el nombre del Problema",
+  "Enter issue description": "Ingrese la descripción del Problema"
+
 }

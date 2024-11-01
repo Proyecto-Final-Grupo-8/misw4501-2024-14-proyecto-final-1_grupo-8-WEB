@@ -27,7 +27,6 @@ import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png';
 const s_apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
 const Login = () => {
-  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [toastVisible, setToastVisible] = useState(false); // Toast visibility state
   const [toastMessage, setToastMessage] = useState(''); // Toast message state
@@ -97,7 +96,7 @@ const Login = () => {
                 />
                 <CCardBody>
                   <CForm>
-                    <h3>{t('login.title')}</h3>
+                    <h3>Login</h3>
                     <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
@@ -141,7 +140,7 @@ const Login = () => {
             <CToaster
               push={
                 toastVisible ? (
-                  <CToast autohide={true} visible={toastVisible} color="danger">
+                  <CToast key={new Date().getTime()} autohide={true} visible={toastVisible} color="danger">
                     <CToastHeader closeButton>
                       <svg
                         className="rounded me-2"
