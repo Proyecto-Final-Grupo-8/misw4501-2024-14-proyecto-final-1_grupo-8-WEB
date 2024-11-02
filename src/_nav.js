@@ -1,5 +1,6 @@
 import React from 'react';
 import CIcon from '@coreui/icons-react';
+import { useTranslation } from 'react-i18next';
 import { cilUserPlus } from '@coreui/icons';
 import { CNavItem, CNavTitle } from '@coreui/react';
 

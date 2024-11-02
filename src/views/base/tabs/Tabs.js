@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CRow,
   CCol,
@@ -10,10 +11,11 @@ import {
   CTabList,
   CTabPanel,
   CTabs,
-} from '@coreui/react'
-import { DocsExample } from 'src/components'
+} from '@coreui/react';
+import { DocsExample } from 'src/components';
 
 const Navs = () => {
+  const { t } = useTranslation();
   return (
     <CRow>
       <CCol xs={12}>
@@ -29,9 +31,9 @@ const Navs = () => {
             <DocsExample href="components/tabs/#example">
               <CTabs activeItemKey="profile">
                 <CTabList variant="tabs">
-                  <CTab itemKey="home">Home</CTab>
-                  <CTab itemKey="profile">Profile</CTab>
-                  <CTab itemKey="contact">Contact</CTab>
+                  <CTab itemKey="home">{t('Home')}</CTab>
+                  <CTab itemKey="profile">{t('Profile')}</CTab>
+                  <CTab itemKey="contact">{t('Contact')}</CTab>
                   <CTab disabled itemKey="disabled">
                     Disabled
                   </CTab>
@@ -68,9 +70,9 @@ const Navs = () => {
             <DocsExample href="components/tabs/#unstyled">
               <CTabs activeItemKey="profile">
                 <CTabList>
-                  <CTab itemKey="home">Home</CTab>
-                  <CTab itemKey="profile">Profile</CTab>
-                  <CTab itemKey="contact">Contact</CTab>
+                  <CTab itemKey="home">{t('Home')}</CTab>
+                  <CTab itemKey="profile">{t('Profile')}</CTab>
+                  <CTab itemKey="contact">{t('Contact')}</CTab>
                   <CTab disabled itemKey="disabled">
                     Disabled
                   </CTab>
@@ -227,7 +229,7 @@ const Navs = () => {
         </CCard>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default Navs
+export default Navs;

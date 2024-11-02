@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CButton,
   CDropdown,
@@ -17,10 +18,11 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-import { DocsExample } from 'src/components'
+} from '@coreui/react';
+import { DocsExample } from 'src/components';
 
 const ButtonGroups = () => {
+  const { t } = useTranslation();
   return (
     <CRow>
       <CCol xs={12}>
@@ -319,11 +321,11 @@ const ButtonGroups = () => {
                 <CDropdown variant="btn-group">
                   <CDropdownToggle color="primary">Dropdown</CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem href="#">Action</CDropdownItem>
-                    <CDropdownItem href="#">Another action</CDropdownItem>
-                    <CDropdownItem href="#">Something else here</CDropdownItem>
+                    <CDropdownItem>{t('Action')}</CDropdownItem>
+                    <CDropdownItem>{t('Another action')}</CDropdownItem>
+                    <CDropdownItem>{t('Something else here...')}</CDropdownItem>
                     <CDropdownDivider />
-                    <CDropdownItem href="#">Separated link</CDropdownItem>
+                    <CDropdownItem href="#">{t('Separated link')}</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
               </CButtonGroup>
@@ -359,11 +361,11 @@ const ButtonGroups = () => {
                 <CDropdown variant="btn-group">
                   <CDropdownToggle color="primary">Dropdown</CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem href="#">Action</CDropdownItem>
-                    <CDropdownItem href="#">Another action</CDropdownItem>
-                    <CDropdownItem href="#">Something else here</CDropdownItem>
+                    <CDropdownItem>{t('Action')}</CDropdownItem>
+                    <CDropdownItem>{t('Another action')}</CDropdownItem>
+                    <CDropdownItem>{t('Something else here...')}</CDropdownItem>
                     <CDropdownDivider />
-                    <CDropdownItem href="#">Separated link</CDropdownItem>
+                    <CDropdownItem href="#">{t('Separated link')}</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
                 <CButton color="primary">Button</CButton>
@@ -371,31 +373,31 @@ const ButtonGroups = () => {
                 <CDropdown variant="btn-group">
                   <CDropdownToggle color="primary">Dropdown</CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem href="#">Action</CDropdownItem>
-                    <CDropdownItem href="#">Another action</CDropdownItem>
-                    <CDropdownItem href="#">Something else here</CDropdownItem>
+                    <CDropdownItem>{t('Action')}</CDropdownItem>
+                    <CDropdownItem>{t('Another action')}</CDropdownItem>
+                    <CDropdownItem>{t('Something else here...')}</CDropdownItem>
                     <CDropdownDivider />
-                    <CDropdownItem href="#">Separated link</CDropdownItem>
+                    <CDropdownItem href="#">{t('Separated link')}</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
                 <CDropdown variant="btn-group">
                   <CDropdownToggle color="primary">Dropdown</CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem href="#">Action</CDropdownItem>
-                    <CDropdownItem href="#">Another action</CDropdownItem>
-                    <CDropdownItem href="#">Something else here</CDropdownItem>
+                    <CDropdownItem>{t('Action')}</CDropdownItem>
+                    <CDropdownItem>{t('Another action')}</CDropdownItem>
+                    <CDropdownItem>{t('Something else here...')}</CDropdownItem>
                     <CDropdownDivider />
-                    <CDropdownItem href="#">Separated link</CDropdownItem>
+                    <CDropdownItem href="#">{t('Separated link')}</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
                 <CDropdown variant="btn-group">
                   <CDropdownToggle color="primary">Dropdown</CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem href="#">Action</CDropdownItem>
-                    <CDropdownItem href="#">Another action</CDropdownItem>
-                    <CDropdownItem href="#">Something else here</CDropdownItem>
+                    <CDropdownItem>{t('Action')}</CDropdownItem>
+                    <CDropdownItem>{t('Another action')}</CDropdownItem>
+                    <CDropdownItem>{t('Something else here...')}</CDropdownItem>
                     <CDropdownDivider />
-                    <CDropdownItem href="#">Separated link</CDropdownItem>
+                    <CDropdownItem href="#">{t('Separated link')}</CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
               </CButtonGroup>
@@ -433,7 +435,7 @@ const ButtonGroups = () => {
         </CCard>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default ButtonGroups
+export default ButtonGroups;

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CButton,
   CButtonGroup,
@@ -12,10 +13,11 @@ import {
   CDropdownMenu,
   CDropdownToggle,
   CRow,
-} from '@coreui/react'
-import { DocsExample } from 'src/components'
+} from '@coreui/react';
+import { DocsExample } from 'src/components';
 
 const Dropdowns = () => {
+  const { t } = useTranslation();
   return (
     <CRow>
       <CCol xs={12}>
@@ -332,7 +334,7 @@ const Dropdowns = () => {
         </CCard>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default Dropdowns
+export default Dropdowns;

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CCard,
   CCardBody,
@@ -11,9 +12,9 @@ import {
   CWidgetStatsC,
   CWidgetStatsE,
   CWidgetStatsF,
-} from '@coreui/react'
-import { getStyle } from '@coreui/utils'
-import CIcon from '@coreui/icons-react'
+} from '@coreui/react';
+import { getStyle } from '@coreui/utils';
+import CIcon from '@coreui/icons-react';
 import {
   cilArrowRight,
   cilBasket,
@@ -27,15 +28,16 @@ import {
   cilSpeedometer,
   cilUser,
   cilUserFollow,
-} from '@coreui/icons'
-import { CChartBar, CChartLine } from '@coreui/react-chartjs'
-import { DocsExample } from 'src/components'
+} from '@coreui/icons';
+import { CChartBar, CChartLine } from '@coreui/react-chartjs';
+import { DocsExample } from 'src/components';
 
-import WidgetsBrand from './WidgetsBrand'
-import WidgetsDropdown from './WidgetsDropdown'
+import WidgetsBrand from './WidgetsBrand';
+import WidgetsDropdown from './WidgetsDropdown';
 
 const Widgets = () => {
-  const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+  const { t } = useTranslation();
+  const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
   return (
     <CCard className="mb-4">
@@ -583,7 +585,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilSettings} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="primary"
               />
@@ -591,7 +593,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilUser} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="info"
               />
@@ -599,7 +601,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilMoon} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="warning"
               />
@@ -607,7 +609,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilBell} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="danger"
               />
@@ -619,7 +621,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilSettings} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="primary"
                 footer={
@@ -638,7 +640,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilLaptop} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="info"
                 footer={
@@ -657,7 +659,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilMoon} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="warning"
                 footer={
@@ -676,7 +678,7 @@ const Widgets = () => {
             <CCol xs={12} sm={6} xl={4} xxl={3}>
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilBell} size="xl" />}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="danger"
                 footer={
@@ -700,7 +702,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilSettings} size="xl" />}
                 padding={false}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="primary"
               />
@@ -709,7 +711,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilUser} size="xl" />}
                 padding={false}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="info"
               />
@@ -718,7 +720,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilMoon} size="xl" />}
                 padding={false}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="warning"
               />
@@ -727,7 +729,7 @@ const Widgets = () => {
               <CWidgetStatsF
                 icon={<CIcon width={24} icon={cilBell} size="xl" />}
                 padding={false}
-                title="income"
+                title={t('Income')}
                 value="$1.999,50"
                 color="danger"
               />
@@ -892,7 +894,7 @@ const Widgets = () => {
         </DocsExample>
       </CCardBody>
     </CCard>
-  )
-}
+  );
+};
 
-export default Widgets
+export default Widgets;

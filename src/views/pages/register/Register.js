@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CButton,
   CCard,
@@ -27,6 +28,7 @@ import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png';
 const s_apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
 const Register = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [companies, setCompanies] = useState([]); // State to hold the companies list
   const [toastVisible, setToastVisible] = useState(false); // Toast visibility state
@@ -143,14 +145,13 @@ const Register = () => {
               />
               <CCardBody className="p-4">
                 <CForm>
-                  <h3>Register</h3>
-                  <p className="text-body-secondary">Create your account</p>
+                  <h3>{t('Register')}</h3>
+                  <p className="text-body-secondary">{t('Create your account')}</p>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
                     </CInputGroupText>
-                    <CFormInput
-                      id="username"
+                    <CFormInput id="username"
                       placeholder="Username"
                       autoComplete="username"
                     />
@@ -160,8 +161,8 @@ const Register = () => {
                       <CIcon icon={cilUserPlus}/>
                     </CInputGroupText>
                     <CFormSelect id="role">
-                      <option value="customer">Customer</option>
-                      <option value="analyst">Analyst</option>
+                      <option value="customer">{t('Customer')}</option>
+                      <option value="analyst">{t('Analyst')}</option>
                     </CFormSelect>
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -169,7 +170,7 @@ const Register = () => {
                       <CIcon icon={cilIndustry}/>
                     </CInputGroupText>
                     <CFormSelect id="company_id">
-                      <option value="">Select a Company</option>
+                      <option value="">{t('Select a Company')}</option>
                       {companies.map((company) => (
                         <option key={company.id} value={company.id}>
                           {company.name}
@@ -184,8 +185,8 @@ const Register = () => {
                     <CFormInput
                       type="password"
                       id="password"
-                      placeholder="Password"
-                      autoComplete="new-password"
+                      placeholder={t('Password')}
+                      autoComplete={t('New password')}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-4">
@@ -195,8 +196,8 @@ const Register = () => {
                     <CFormInput
                       type="password"
                       id="confirmPassword"
-                      placeholder="Confirm Password"
-                      autoComplete="new-password"
+                      placeholder={t('Confirm password')}
+                      autoComplete={t('New password')}
                     />
                   </CInputGroup>
                   <CButton color="primary" onClick={register} disabled={loading}>

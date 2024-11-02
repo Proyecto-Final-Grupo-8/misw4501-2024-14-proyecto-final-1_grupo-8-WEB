@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -30,6 +31,7 @@ import { AppHeaderDropdown } from './header/index';
 import LanguageSwitcher from './LanguageSwitcher';
 
 const AppHeader = () => {
+  const { t } = useTranslation();
   const headerRef = useRef();
   const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme');
 
@@ -63,14 +65,14 @@ const AppHeader = () => {
         <CHeaderNav className="d-none d-md-flex">
           <CNavItem>
             <CNavLink to="/dashboard" as={NavLink}>
-              Dashboard
+              {t('Dashboard')}
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Users</CNavLink>
+            <CNavLink href="#">{t('Users')}</CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
+            <CNavLink href="#">{t('Settings')}</CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
@@ -113,7 +115,7 @@ const AppHeader = () => {
                 type="button"
                 onClick={() => setColorMode('light')}
               >
-                <CIcon className="me-2" icon={cilSun} size="lg" /> Light
+                <CIcon className="me-2" icon={cilSun} size="lg" /> {t('Light')}
               </CDropdownItem>
               <CDropdownItem
                 active={colorMode === 'dark'}
@@ -122,7 +124,7 @@ const AppHeader = () => {
                 type="button"
                 onClick={() => setColorMode('dark')}
               >
-                <CIcon className="me-2" icon={cilMoon} size="lg" /> Dark
+                <CIcon className="me-2" icon={cilMoon} size="lg" /> {t('Dark')}
               </CDropdownItem>
               <CDropdownItem
                 active={colorMode === 'auto'}
@@ -131,7 +133,7 @@ const AppHeader = () => {
                 type="button"
                 onClick={() => setColorMode('auto')}
               >
-                <CIcon className="me-2" icon={cilContrast} size="lg" /> Auto
+                <CIcon className="me-2" icon={cilContrast} size="lg" /> {t('Auto')}
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>

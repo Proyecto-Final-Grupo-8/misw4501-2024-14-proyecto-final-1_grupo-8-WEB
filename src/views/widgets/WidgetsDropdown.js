@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import {
   CRow,
@@ -9,33 +10,34 @@ import {
   CDropdownItem,
   CDropdownToggle,
   CWidgetStatsA,
-} from '@coreui/react'
-import { getStyle } from '@coreui/utils'
-import { CChartBar, CChartLine } from '@coreui/react-chartjs'
-import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+} from '@coreui/react';
+import { getStyle } from '@coreui/utils';
+import { CChartBar, CChartLine } from '@coreui/react-chartjs';
+import CIcon from '@coreui/icons-react';
+import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons';
 
 const WidgetsDropdown = (props) => {
-  const widgetChartRef1 = useRef(null)
-  const widgetChartRef2 = useRef(null)
+  const { t } = useTranslation();
+  const widgetChartRef1 = useRef(null);
+  const widgetChartRef2 = useRef(null);
 
   useEffect(() => {
     document.documentElement.addEventListener('ColorSchemeChange', () => {
       if (widgetChartRef1.current) {
         setTimeout(() => {
-          widgetChartRef1.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary')
-          widgetChartRef1.current.update()
-        })
+          widgetChartRef1.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary');
+          widgetChartRef1.current.update();
+        });
       }
 
       if (widgetChartRef2.current) {
         setTimeout(() => {
-          widgetChartRef2.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-info')
-          widgetChartRef2.current.update()
-        })
+          widgetChartRef2.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-info');
+          widgetChartRef2.current.update();
+        });
       }
-    })
-  }, [widgetChartRef1, widgetChartRef2])
+    });
+  }, [widgetChartRef1, widgetChartRef2]);
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
@@ -50,17 +52,17 @@ const WidgetsDropdown = (props) => {
               </span>
             </>
           }
-          title="Users"
+          title={t('Users')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
+                <CDropdownItem>{t('Action')}</CDropdownItem>
+                <CDropdownItem>{t('Another action')}</CDropdownItem>
+                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
+                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
           }
@@ -140,17 +142,17 @@ const WidgetsDropdown = (props) => {
               </span>
             </>
           }
-          title="Income"
+          title={t('Income')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
+                <CDropdownItem>{t('Action')}</CDropdownItem>
+                <CDropdownItem>{t('Another action')}</CDropdownItem>
+                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
+                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
           }
@@ -229,17 +231,17 @@ const WidgetsDropdown = (props) => {
               </span>
             </>
           }
-          title="Conversion Rate"
+          title={t('Conversion rate')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
+                <CDropdownItem>{t('Action')}</CDropdownItem>
+                <CDropdownItem>{t('Another action')}</CDropdownItem>
+                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
+                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
           }
@@ -301,17 +303,17 @@ const WidgetsDropdown = (props) => {
               </span>
             </>
           }
-          title="Sessions"
+          title={t('Sessions')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
                 <CIcon icon={cilOptions} />
               </CDropdownToggle>
               <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
+                <CDropdownItem>{t('Action')}</CDropdownItem>
+                <CDropdownItem>{t('Another action')}</CDropdownItem>
+                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
+                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
               </CDropdownMenu>
             </CDropdown>
           }
@@ -385,12 +387,12 @@ const WidgetsDropdown = (props) => {
         />
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
 WidgetsDropdown.propTypes = {
   className: PropTypes.string,
   withCharts: PropTypes.bool,
-}
+};
 
-export default WidgetsDropdown
+export default WidgetsDropdown;
