@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import WidgetsDropdown from '../widgets/WidgetsDropdown';
-import { CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle, CForm, CFormInput, CFormLabel, CFormTextarea, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow, CToast, CToastBody, CToastHeader, CToaster } from '@coreui/react';
+import {
+  CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle,
+  CForm, CFormInput, CFormLabel, CFormTextarea,
+  CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow,
+  CToast, CToastBody, CToastHeader, CToaster
+} from '@coreui/react';
 
 const Dashboard = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -12,104 +18,79 @@ const Dashboard = () => {
   const [toastColor, setToastColor] = useState('danger');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const s_apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
+  const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
+
+  // Helper function for session token retrieval
+  const getAccessToken = () => JSON.parse(sessionStorage.getItem('loginData'))?.access_token;
+
+  // Helper function to show toast
+  const showToast = (message, color) => {
+    setToastMessage(message);
+    setToastColor(color);
+    setToastVisible(true);
+  };
+
+  // Function to fetch issues
+  const fetchIssues = async () => {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      showToast('Access token not found.', 'danger');
+      return;
+    }
+    try {
+      const response = await fetch(`${apiUrl}incidents`, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+      });
+      if (!response.ok) throw new Error('Failed to fetch issues');
+      const data = await response.json();
+      setIssues(data);
+    } catch (error) {
+      console.error('Error fetching issues:', error);
+      showToast('Failed to fetch issues.', 'danger');
+    }
+  };
 
   useEffect(() => {
-    const fetchIssues = async () => {
-      const loginData = JSON.parse(sessionStorage.getItem('loginData'));
-      const accessToken = loginData?.access_token;
-
-      if (accessToken) {
-        try {
-          const response = await fetch(s_apiUrl + 'incidents', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to fetch issues');
-          }
-
-          const data = await response.json();
-          setIssues(data);
-        } catch (error) {
-          console.error('Error fetching issues:', error);
-          setToastMessage('Failed to fetch issues.');
-          setToastColor('danger');
-          setToastVisible(true);
-        }
-      } else {
-        console.error('Access token not found');
-        setToastMessage('Access token not found.');
-        setToastColor('danger');
-        setToastVisible(true);
-      }
-    };
-
     fetchIssues();
   }, []);
 
   const handleSaveIssue = async () => {
     setIsSubmitting(true);
-
     if (!name || !description) {
-      setToastMessage('Please fill in all fields before saving.');
-      setToastColor('danger');
-      setToastVisible(true);
+      showToast('Please fill in all fields before saving.', 'danger');
       setIsSubmitting(false);
       return;
     }
 
-    const newIssue = { name, description };
-    setIssues([...issues, newIssue]);
-    setModalVisible(false);
-    setName('');
-    setDescription('');
-    setIsSubmitting(false);
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      showToast('Access token not found.', 'danger');
+      setIsSubmitting(false);
+      return;
+    }
 
-    // Construct JSON payload
-    const payload = {
-      source: 'web',
-      description: description,
-    };
-
-    // Get access token from session storage
-    const loginData = JSON.parse(sessionStorage.getItem('loginData'));
-    const accessToken = loginData?.access_token;
-
-    if (accessToken) {
-      try {
-        // Send POST request using fetch
-        const response = await fetch(s_apiUrl + 'incident', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to send issue');
-        }
-
-        // Show success toast
-        setToastMessage('Issue created successfully.');
-        setToastColor('success');
-        setToastVisible(true);
-      } catch (error) {
-        console.error('Error sending issue:', error);
-        setToastMessage('Failed to create issue.');
-        setToastColor('danger');
-        setToastVisible(true);
-      }
-    } else {
-      console.error('Access token not found');
-      setToastMessage('Access token not found.');
-      setToastColor('danger');
-      setToastVisible(true);
+    const payload = { source: 'web', description };
+    try {
+      const response = await fetch(`${apiUrl}incident`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error('Failed to send issue');
+      showToast('Issue created successfully.', 'success');
+      await fetchIssues(); // Refresh issues list
+      setModalVisible(false);
+      setName('');
+      setDescription('');
+    } catch (error) {
+      console.error('Error sending issue:', error);
+      showToast('Failed to create issue.', 'danger');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -130,9 +111,10 @@ const Dashboard = () => {
       <CTable className="mt-4">
         <CTableHead>
           <CTableRow>
-            <CTableHeaderCell scope="col">#</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Status</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Description</CTableHeaderCell>
+            <CTableHeaderCell>#</CTableHeaderCell>
+            <CTableHeaderCell>Status</CTableHeaderCell>
+            <CTableHeaderCell>Description</CTableHeaderCell>
+            <CTableHeaderCell>Actions</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -141,6 +123,11 @@ const Dashboard = () => {
               <CTableDataCell>{index + 1}</CTableDataCell>
               <CTableDataCell>{issue.status}</CTableDataCell>
               <CTableDataCell>{issue.description}</CTableDataCell>
+              <CTableDataCell>
+                <Link to={`/issues/${issue.id}`}>
+                  <CButton color="info">View Detail</CButton>
+                </Link>
+              </CTableDataCell>
             </CTableRow>
           ))}
         </CTableBody>
@@ -159,6 +146,7 @@ const Dashboard = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter issue name"
+                aria-label="Issue Name"
               />
             </div>
             <div className="mb-3">
@@ -168,6 +156,7 @@ const Dashboard = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter issue description"
+                aria-label="Issue Description"
               />
             </div>
           </CForm>
@@ -177,7 +166,7 @@ const Dashboard = () => {
             Close
           </CButton>
           <CButton color="primary" onClick={handleSaveIssue} disabled={isSubmitting}>
-            Save changes
+            {isSubmitting ? 'Saving...' : 'Save changes'}
           </CButton>
         </CModalFooter>
       </CModal>
@@ -186,17 +175,6 @@ const Dashboard = () => {
           toastVisible ? (
             <CToast key={new Date().getTime()} autohide={true} visible={toastVisible} color={toastColor}>
               <CToastHeader closeButton>
-                <svg
-                  className="rounded me-2"
-                  width="20"
-                  height="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                  role="img"
-                >
-                  <rect width="100%" height="100%" fill={toastColor === 'danger' ? '#ff0000' : '#00ff00'}></rect>
-                </svg>
                 <strong className="me-auto">{toastColor === 'danger' ? 'Error' : 'Success'}</strong>
                 <small>Now</small>
               </CToastHeader>
