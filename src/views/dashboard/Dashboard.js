@@ -5,7 +5,7 @@ import {
   CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle,
   CForm, CFormInput, CFormLabel, CFormTextarea,
   CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow,
-  CToast, CToastBody, CToastHeader, CToaster
+  CToast, CToastBody, CToastHeader, CToaster,
 } from '@coreui/react';
 
 const Dashboard = () => {
@@ -13,6 +13,8 @@ const Dashboard = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [issues, setIssues] = useState([]);
+  const [filteredIssues, setFilteredIssues] = useState([]);
+  const [dateFilter, setDateFilter] = useState('all');
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastColor, setToastColor] = useState('danger');
@@ -20,17 +22,14 @@ const Dashboard = () => {
 
   const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
-  // Helper function for session token retrieval
   const getAccessToken = () => JSON.parse(sessionStorage.getItem('loginData'))?.access_token;
 
-  // Helper function to show toast
   const showToast = (message, color) => {
     setToastMessage(message);
     setToastColor(color);
     setToastVisible(true);
   };
 
-  // Function to fetch issues
   const fetchIssues = async () => {
     const accessToken = getAccessToken();
     if (!accessToken) {
@@ -45,6 +44,7 @@ const Dashboard = () => {
       if (!response.ok) throw new Error('Failed to fetch issues');
       const data = await response.json();
       setIssues(data);
+      setFilteredIssues(data);
     } catch (error) {
       console.error('Error fetching issues:', error);
       showToast('Failed to fetch issues.', 'danger');
@@ -54,6 +54,41 @@ const Dashboard = () => {
   useEffect(() => {
     fetchIssues();
   }, []);
+
+  useEffect(() => {
+    filterIssuesByDate();
+  }, [dateFilter, issues]);
+
+  const filterIssuesByDate = () => {
+    const today = new Date();
+    let filtered = issues;
+
+    switch (dateFilter) {
+      case 'today':
+        filtered = issues.filter(issue => {
+          const issueDate = new Date(issue.created_date);
+          return issueDate.toDateString() === today.toDateString();
+        });
+        break;
+      case 'this-month':
+        filtered = issues.filter(issue => {
+          const issueDate = new Date(issue.created_date);
+          return issueDate.getMonth() === today.getMonth() && issueDate.getFullYear() === today.getFullYear();
+        });
+        break;
+      case 'last-month':
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        filtered = issues.filter(issue => {
+          const issueDate = new Date(issue.created_date);
+          return issueDate.getMonth() === lastMonth.getMonth() && issueDate.getFullYear() === lastMonth.getFullYear();
+        });
+        break;
+      default:
+        filtered = issues;
+    }
+
+    setFilteredIssues(filtered);
+  };
 
   const handleSaveIssue = async () => {
     setIsSubmitting(true);
@@ -82,7 +117,7 @@ const Dashboard = () => {
       });
       if (!response.ok) throw new Error('Failed to send issue');
       showToast('Issue created successfully.', 'success');
-      await fetchIssues(); // Refresh issues list
+      await fetchIssues();
       setModalVisible(false);
       setName('');
       setDescription('');
@@ -97,16 +132,28 @@ const Dashboard = () => {
   return (
     <>
       <WidgetsDropdown className="mb-4" />
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h2>Issues</h2>
-        <CButton
-          color="primary"
-          className="px-4"
-          style={{ marginLeft: '1.5rem' }}
-          onClick={() => setModalVisible(true)}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h2>Issues</h2>
+          <CButton
+            color="primary"
+            className="px-4"
+            onClick={() => setModalVisible(true)}
+            style={{ marginLeft: '1.5rem' }}
+          >
+            New
+          </CButton>
+        </div>
+        <select
+          value={dateFilter}
+          onChange={(e) => setDateFilter(e.target.value)}
+          style={{ width: '200px' }}
         >
-          New
-        </CButton>
+          <option value="all">All</option>
+          <option value="today">Today</option>
+          <option value="this-month">This Month</option>
+          <option value="last-month">Last Month</option>
+        </select>
       </div>
       <CTable className="mt-4">
         <CTableHead>
@@ -114,15 +161,17 @@ const Dashboard = () => {
             <CTableHeaderCell>#</CTableHeaderCell>
             <CTableHeaderCell>Status</CTableHeaderCell>
             <CTableHeaderCell>Description</CTableHeaderCell>
+            <CTableHeaderCell>Created Date</CTableHeaderCell>
             <CTableHeaderCell>Actions</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {issues.map((issue, index) => (
+          {filteredIssues.map((issue, index) => (
             <CTableRow key={issue.id}>
               <CTableDataCell>{index + 1}</CTableDataCell>
               <CTableDataCell>{issue.status}</CTableDataCell>
               <CTableDataCell>{issue.description}</CTableDataCell>
+              <CTableDataCell>{new Date(issue.created_date).toLocaleDateString()}</CTableDataCell>
               <CTableDataCell>
                 <Link to={`/issues/${issue.id}`}>
                   <CButton color="info">View Detail</CButton>
@@ -146,7 +195,6 @@ const Dashboard = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter issue name"
-                aria-label="Issue Name"
               />
             </div>
             <div className="mb-3">
@@ -156,7 +204,6 @@ const Dashboard = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter issue description"
-                aria-label="Issue Description"
               />
             </div>
           </CForm>
