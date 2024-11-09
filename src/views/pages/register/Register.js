@@ -20,7 +20,14 @@ import {
   CSpinner,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser, cilUserPlus, cilIndustry, cilEnvelopeClosed, cilScreenSmartphone } from '@coreui/icons';
+import {
+  cilLockLocked,
+  cilUser,
+  cilUserPlus,
+  cilIndustry,
+  cilEnvelopeClosed,
+  cilScreenSmartphone,
+} from '@coreui/icons';
 
 // Import Logo
 import ABCAllLogo from 'src/assets/images/logos/abcall-logo.png';
@@ -76,7 +83,15 @@ const Register = () => {
       const s_phone = document.getElementById('phone').value;
 
       // Validate inputs
-      if (!s_username || !s_role || !s_company || !s_password || !s_confirmPassword || !s_email || !s_lastName) {
+      if (
+        !s_username ||
+        !s_role ||
+        !s_company ||
+        !s_password ||
+        !s_confirmPassword ||
+        !s_email ||
+        !s_lastName
+      ) {
         setToastMessage('Please fill out all fields!');
         setToastColor('danger');
         setToastVisible(true);
@@ -159,38 +174,39 @@ const Register = () => {
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
                     </CInputGroupText>
-                    <CFormInput id="username"
-                      placeholder="Username"
-                      autoComplete="username"
+                    <CFormInput id="username" placeholder={t('Username')} autoComplete="username" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput id="name" placeholder={t('Name')} autoComplete="name" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput
+                      id="last_name"
+                      placeholder={t('Last Name')}
+                      autoComplete="last_name"
                     />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                    <CFormInput id="name" placeholder="Name" autoComplete="name" />
-                  </CInputGroup>
-                  <CInputGroup className="mb-3">
-                    <CInputGroupText>
-                      <CIcon icon={cilUser} />
-                    </CInputGroupText>
-                    <CFormInput id="last_name" placeholder="Last Name" autoComplete="last_name" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilEnvelopeClosed} />
                     </CInputGroupText>
-                    <CFormInput id="email" placeholder="Email" autoComplete="email" />
+                    <CFormInput id="email" placeholder={t('Email')} autoComplete="email" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilScreenSmartphone} />
                     </CInputGroupText>
-                    <CFormInput id="phone" placeholder="Phone" autoComplete="phone" />
+                    <CFormInput id="phone" placeholder={t('Phone')} autoComplete="phone" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
-                      <CIcon icon={cilUserPlus}/>
+                      <CIcon icon={cilUserPlus} />
                     </CInputGroupText>
                     <CFormSelect id="role">
                       <option value="customer">{t('Customer')}</option>
@@ -199,7 +215,7 @@ const Register = () => {
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
-                      <CIcon icon={cilIndustry}/>
+                      <CIcon icon={cilIndustry} />
                     </CInputGroupText>
                     <CFormSelect id="company_id">
                       <option value="">{t('Select a Company')}</option>
@@ -233,7 +249,7 @@ const Register = () => {
                     />
                   </CInputGroup>
                   <CButton color="primary" onClick={register} disabled={loading}>
-                    {loading ? <CSpinner size="sm" color="light" /> : 'Create Account'}
+                    {loading ? <CSpinner size="sm" color="light" /> : t('Create Account')}
                   </CButton>
                 </CForm>
               </CCardBody>

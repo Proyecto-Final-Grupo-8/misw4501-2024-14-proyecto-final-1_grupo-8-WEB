@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CAvatar,
   CBadge,
@@ -21,7 +22,7 @@ import {
   cilUser,
 } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-import { useTranslation } from 'react-i18next';
+
 import avatar8 from './../../assets/images/avatars/8.jpg';
 
 const logout = () => {
@@ -31,7 +32,7 @@ const logout = () => {
 };
 
 const AppHeaderDropdown = () => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
@@ -44,54 +45,58 @@ const AppHeaderDropdown = () => {
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownItem onClick={() => changeLanguage('en')}>🇬🇧 English</CDropdownItem>
         <CDropdownItem onClick={() => changeLanguage('es')}>🇪🇸 Español</CDropdownItem>
-        <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Account</CDropdownHeader>
+        <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">
+          {t('Account')}
+        </CDropdownHeader>
         <CDropdownItem href="#">
           <CIcon icon={cilBell} className="me-2" />
-          Updates
+          {t('Updates')}
           <CBadge color="info" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilEnvelopeOpen} className="me-2" />
-          Messages
+          {t('Messages')}
           <CBadge color="success" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilTask} className="me-2" />
-          Tasks
+          {t('Tasks')}
           <CBadge color="danger" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilCommentSquare} className="me-2" />
-          Comments
+          {t('Comments')}
           <CBadge color="warning" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>
-        <CDropdownHeader className="bg-body-secondary fw-semibold my-2">Settings</CDropdownHeader>
+        <CDropdownHeader className="bg-body-secondary fw-semibold my-2">
+          {t('Settings')}
+        </CDropdownHeader>
         <CDropdownItem href="#">
           <CIcon icon={cilUser} className="me-2" />
-          Profile
+          {t('Profile')}
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilSettings} className="me-2" />
-          Settings
+          {t('Settings')}
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilCreditCard} className="me-2" />
-          Payments
+          {t('Payments')}
           <CBadge color="secondary" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>
         <CDropdownItem href="#">
           <CIcon icon={cilFile} className="me-2" />
-          Projects
+          {t('Projects')}
           <CBadge color="primary" className="ms-2">
             42
           </CBadge>
@@ -99,7 +104,7 @@ const AppHeaderDropdown = () => {
         <CDropdownDivider />
         <CDropdownItem onClick={logout}>
           <CIcon icon={cilLockLocked} className="me-2" />
-          Log Out
+          {t('Log Out')}
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

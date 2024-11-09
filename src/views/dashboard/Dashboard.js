@@ -1,6 +1,6 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import WidgetsDropdown from '../widgets/WidgetsDropdown';
 import {
   CButton,
@@ -19,16 +19,10 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-=======
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import WidgetsDropdown from '../widgets/WidgetsDropdown';
-import {
-  CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle,
-  CForm, CFormInput, CFormLabel, CFormTextarea,
-  CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow,
-  CToast, CToastBody, CToastHeader, CToaster,
->>>>>>> 7d3f801061cacce03ee0fc29649c202f8ac94b03
+  CToast,
+  CToastBody,
+  CToastHeader,
+  CToaster,
 } from '@coreui/react';
 
 const Dashboard = () => {
@@ -63,7 +57,7 @@ const Dashboard = () => {
     try {
       const response = await fetch(`${apiUrl}incidents`, {
         method: 'GET',
-        headers: { 'Authorization': `Bearer ${accessToken}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (!response.ok) throw new Error('Failed to fetch issues');
       const data = await response.json();
@@ -89,20 +83,20 @@ const Dashboard = () => {
 
     switch (dateFilter) {
       case 'today':
-        filtered = issues.filter(issue => {
+        filtered = issues.filter((issue) => {
           const issueDate = new Date(issue.created_date);
           return issueDate.toDateString() === today.toDateString();
         });
         break;
       case 'this-month':
-        filtered = issues.filter(issue => {
+        filtered = issues.filter((issue) => {
           const issueDate = new Date(issue.created_date);
           return issueDate.getMonth() === today.getMonth() && issueDate.getFullYear() === today.getFullYear();
         });
         break;
       case 'last-month':
         const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-        filtered = issues.filter(issue => {
+        filtered = issues.filter((issue) => {
           const issueDate = new Date(issue.created_date);
           return issueDate.getMonth() === lastMonth.getMonth() && issueDate.getFullYear() === lastMonth.getFullYear();
         });
@@ -135,7 +129,7 @@ const Dashboard = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(payload),
       });
@@ -158,14 +152,14 @@ const Dashboard = () => {
       <WidgetsDropdown className="mb-4" />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h2>Issues</h2>
+          <h2>{t('Issues')}</h2>
           <CButton
             color="primary"
             className="px-4"
             onClick={() => setModalVisible(true)}
             style={{ marginLeft: '1.5rem' }}
           >
-            New
+            {t('New')}
           </CButton>
         </div>
         <select
@@ -173,26 +167,20 @@ const Dashboard = () => {
           onChange={(e) => setDateFilter(e.target.value)}
           style={{ width: '200px' }}
         >
-          <option value="all">All</option>
-          <option value="today">Today</option>
-          <option value="this-month">This Month</option>
-          <option value="last-month">Last Month</option>
+          <option value="all">{t('All')}</option>
+          <option value="today">{t('Today')}</option>
+          <option value="this-month">{t('This month')}</option>
+          <option value="last-month">{t('Last month')}</option>
         </select>
       </div>
       <CTable className="mt-4">
         <CTableHead>
           <CTableRow>
-<<<<<<< HEAD
-            <CTableHeaderCell scope="col">#</CTableHeaderCell>
-            <CTableHeaderCell scope="col">{t('Name')}</CTableHeaderCell>
-            <CTableHeaderCell scope="col">{t('Description')}</CTableHeaderCell>
-=======
             <CTableHeaderCell>#</CTableHeaderCell>
-            <CTableHeaderCell>Status</CTableHeaderCell>
-            <CTableHeaderCell>Description</CTableHeaderCell>
-            <CTableHeaderCell>Created Date</CTableHeaderCell>
-            <CTableHeaderCell>Actions</CTableHeaderCell>
->>>>>>> 7d3f801061cacce03ee0fc29649c202f8ac94b03
+            <CTableHeaderCell>{t('Status')}</CTableHeaderCell>
+            <CTableHeaderCell>{t('Description')}</CTableHeaderCell>
+            <CTableHeaderCell>{t('Created Date')}</CTableHeaderCell>
+            <CTableHeaderCell>{t('Actions')}</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
         <CTableBody>
@@ -204,7 +192,7 @@ const Dashboard = () => {
               <CTableDataCell>{new Date(issue.created_date).toLocaleDateString()}</CTableDataCell>
               <CTableDataCell>
                 <Link to={`/issues/${issue.id}`}>
-                  <CButton color="info">View Detail</CButton>
+                  <CButton color="info">{t('View Detail')}</CButton>
                 </Link>
               </CTableDataCell>
             </CTableRow>
@@ -242,15 +230,9 @@ const Dashboard = () => {
           <CButton color="secondary" onClick={() => setModalVisible(false)}>
             {t('Close')}
           </CButton>
-          <CButton color="primary" onClick={handleSaveIssue}>
-            {t('Save changes')}
-          </CButton>
-<<<<<<< HEAD
-=======
           <CButton color="primary" onClick={handleSaveIssue} disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : 'Save changes'}
+            {isSubmitting ? t('Saving...') : t('Save changes')}
           </CButton>
->>>>>>> 7d3f801061cacce03ee0fc29649c202f8ac94b03
         </CModalFooter>
       </CModal>
       <CToaster
@@ -259,7 +241,7 @@ const Dashboard = () => {
             <CToast key={new Date().getTime()} autohide={true} visible={toastVisible} color={toastColor}>
               <CToastHeader closeButton>
                 <strong className="me-auto">{toastColor === 'danger' ? 'Error' : 'Success'}</strong>
-                <small>Now</small>
+                <small>{t('Now')}</small>
               </CToastHeader>
               <CToastBody>{toastMessage}</CToastBody>
             </CToast>
