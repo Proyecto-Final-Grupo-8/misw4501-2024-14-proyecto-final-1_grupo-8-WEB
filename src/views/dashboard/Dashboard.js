@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import WidgetsDropdown from '../widgets/WidgetsDropdown';
@@ -18,6 +19,16 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+=======
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import WidgetsDropdown from '../widgets/WidgetsDropdown';
+import {
+  CButton, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle,
+  CForm, CFormInput, CFormLabel, CFormTextarea,
+  CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow,
+  CToast, CToastBody, CToastHeader, CToaster,
+>>>>>>> 7d3f801061cacce03ee0fc29649c202f8ac94b03
 } from '@coreui/react';
 
 const Dashboard = () => {
@@ -26,43 +37,176 @@ const Dashboard = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [issues, setIssues] = useState([]);
+  const [filteredIssues, setFilteredIssues] = useState([]);
+  const [dateFilter, setDateFilter] = useState('all');
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastColor, setToastColor] = useState('danger');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSaveIssue = () => {
-    const newIssue = { name, description };
-    setIssues([...issues, newIssue]);
-    setModalVisible(false);
-    setName('');
-    setDescription('');
+  const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
+
+  const getAccessToken = () => JSON.parse(sessionStorage.getItem('loginData'))?.access_token;
+
+  const showToast = (message, color) => {
+    setToastMessage(message);
+    setToastColor(color);
+    setToastVisible(true);
+  };
+
+  const fetchIssues = async () => {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      showToast('Access token not found.', 'danger');
+      return;
+    }
+    try {
+      const response = await fetch(`${apiUrl}incidents`, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+      });
+      if (!response.ok) throw new Error('Failed to fetch issues');
+      const data = await response.json();
+      setIssues(data);
+      setFilteredIssues(data);
+    } catch (error) {
+      console.error('Error fetching issues:', error);
+      showToast('Failed to fetch issues.', 'danger');
+    }
+  };
+
+  useEffect(() => {
+    fetchIssues();
+  }, []);
+
+  useEffect(() => {
+    filterIssuesByDate();
+  }, [dateFilter, issues]);
+
+  const filterIssuesByDate = () => {
+    const today = new Date();
+    let filtered = issues;
+
+    switch (dateFilter) {
+      case 'today':
+        filtered = issues.filter(issue => {
+          const issueDate = new Date(issue.created_date);
+          return issueDate.toDateString() === today.toDateString();
+        });
+        break;
+      case 'this-month':
+        filtered = issues.filter(issue => {
+          const issueDate = new Date(issue.created_date);
+          return issueDate.getMonth() === today.getMonth() && issueDate.getFullYear() === today.getFullYear();
+        });
+        break;
+      case 'last-month':
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        filtered = issues.filter(issue => {
+          const issueDate = new Date(issue.created_date);
+          return issueDate.getMonth() === lastMonth.getMonth() && issueDate.getFullYear() === lastMonth.getFullYear();
+        });
+        break;
+      default:
+        filtered = issues;
+    }
+
+    setFilteredIssues(filtered);
+  };
+
+  const handleSaveIssue = async () => {
+    setIsSubmitting(true);
+    if (!name || !description) {
+      showToast('Please fill in all fields before saving.', 'danger');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      showToast('Access token not found.', 'danger');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const payload = { source: 'web', description };
+    try {
+      const response = await fetch(`${apiUrl}incident`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error('Failed to send issue');
+      showToast('Issue created successfully.', 'success');
+      await fetchIssues();
+      setModalVisible(false);
+      setName('');
+      setDescription('');
+    } catch (error) {
+      console.error('Error sending issue:', error);
+      showToast('Failed to create issue.', 'danger');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <>
       <WidgetsDropdown className="mb-4" />
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h2>Issues</h2>
-        <CButton
-          color="primary"
-          className="px-4"
-          style={{ marginLeft: '1.5rem' }}
-          onClick={() => setModalVisible(true)}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h2>Issues</h2>
+          <CButton
+            color="primary"
+            className="px-4"
+            onClick={() => setModalVisible(true)}
+            style={{ marginLeft: '1.5rem' }}
+          >
+            New
+          </CButton>
+        </div>
+        <select
+          value={dateFilter}
+          onChange={(e) => setDateFilter(e.target.value)}
+          style={{ width: '200px' }}
         >
-          New
-        </CButton>
+          <option value="all">All</option>
+          <option value="today">Today</option>
+          <option value="this-month">This Month</option>
+          <option value="last-month">Last Month</option>
+        </select>
       </div>
       <CTable className="mt-4">
         <CTableHead>
           <CTableRow>
+<<<<<<< HEAD
             <CTableHeaderCell scope="col">#</CTableHeaderCell>
             <CTableHeaderCell scope="col">{t('Name')}</CTableHeaderCell>
             <CTableHeaderCell scope="col">{t('Description')}</CTableHeaderCell>
+=======
+            <CTableHeaderCell>#</CTableHeaderCell>
+            <CTableHeaderCell>Status</CTableHeaderCell>
+            <CTableHeaderCell>Description</CTableHeaderCell>
+            <CTableHeaderCell>Created Date</CTableHeaderCell>
+            <CTableHeaderCell>Actions</CTableHeaderCell>
+>>>>>>> 7d3f801061cacce03ee0fc29649c202f8ac94b03
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {issues.map((issue, index) => (
-            <CTableRow key={index}>
+          {filteredIssues.map((issue, index) => (
+            <CTableRow key={issue.id}>
               <CTableDataCell>{index + 1}</CTableDataCell>
-              <CTableDataCell>{issue.name}</CTableDataCell>
+              <CTableDataCell>{issue.status}</CTableDataCell>
               <CTableDataCell>{issue.description}</CTableDataCell>
+              <CTableDataCell>{new Date(issue.created_date).toLocaleDateString()}</CTableDataCell>
+              <CTableDataCell>
+                <Link to={`/issues/${issue.id}`}>
+                  <CButton color="info">View Detail</CButton>
+                </Link>
+              </CTableDataCell>
             </CTableRow>
           ))}
         </CTableBody>
@@ -101,8 +245,28 @@ const Dashboard = () => {
           <CButton color="primary" onClick={handleSaveIssue}>
             {t('Save changes')}
           </CButton>
+<<<<<<< HEAD
+=======
+          <CButton color="primary" onClick={handleSaveIssue} disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : 'Save changes'}
+          </CButton>
+>>>>>>> 7d3f801061cacce03ee0fc29649c202f8ac94b03
         </CModalFooter>
       </CModal>
+      <CToaster
+        push={
+          toastVisible ? (
+            <CToast key={new Date().getTime()} autohide={true} visible={toastVisible} color={toastColor}>
+              <CToastHeader closeButton>
+                <strong className="me-auto">{toastColor === 'danger' ? 'Error' : 'Success'}</strong>
+                <small>Now</small>
+              </CToastHeader>
+              <CToastBody>{toastMessage}</CToastBody>
+            </CToast>
+          ) : null
+        }
+        placement="bottom-end"
+      />
     </>
   );
 };
