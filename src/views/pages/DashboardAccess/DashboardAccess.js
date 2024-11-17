@@ -8,9 +8,7 @@ import {
   CCardBody,
   CCardHeader,
 } from '@coreui/react';
-import { CChartLine, CChartBar } from '@coreui/react-chartjs';
-import { cilArrowTop } from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
+import { CChartLine, CChartBar, CChartPie } from '@coreui/react-chartjs';
 
 const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
@@ -26,6 +24,7 @@ const fetchGraphqlData = async () => {
       }
       incidents {
         id
+        status
         customer {
           id
         }
@@ -102,6 +101,23 @@ const DashboardAccess = () => {
             company.users.some((user) => user.id === incident.customer?.id)
           ).length
         ),
+      },
+    ],
+  };
+
+  // Datos para el Tablero 3: Incidentes por Estado
+  const incidentsByStatus = data.incidents.reduce((acc, incident) => {
+    acc[incident.status] = (acc[incident.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  const incidentsByStatusData = {
+    labels: Object.keys(incidentsByStatus),
+    datasets: [
+      {
+        data: Object.values(incidentsByStatus),
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
       },
     ],
   };
@@ -284,6 +300,27 @@ const DashboardAccess = () => {
               },
             }}
           />
+        </CCardBody>
+      </CCard>
+
+      {/* Tablero 3: Incidentes por Estado */}
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Incidentes por Estado</b>
+        </CCardHeader>
+        <CCardBody>
+            <div style={{ maxWidth: '300px', margin: '0 auto' }}>
+                <CChartPie
+                    data={incidentsByStatusData}
+                    options={{
+                    plugins: {
+                        legend: {
+                        position: 'top',
+                        },
+                    },
+                    }}
+                />
+            </div>
         </CCardBody>
       </CCard>
     </>
