@@ -25,6 +25,7 @@ const fetchGraphqlData = async () => {
       incidents {
         id
         status
+        source
         customer {
           id
         }
@@ -121,6 +122,13 @@ const DashboardAccess = () => {
       },
     ],
   };
+
+  const incidentSources = data.incidents && data.incidents.length > 0
+    ? data.incidents.reduce((acc, incident) => {
+      acc[incident.source] = (acc[incident.source] || 0) + 1;
+      return acc;
+    }, {})
+    : {};
 
   return (
     <>
@@ -378,6 +386,47 @@ const DashboardAccess = () => {
               },
             }}
           />
+        </CCardBody>
+      </CCard>
+      {/* Tablero 6: Origen de Incidentes */}
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Origen de Incidentes</b>
+        </CCardHeader>
+        <CCardBody>
+          <div style={{ maxWidth: '300px', margin: '0 auto' }}>
+            <CChartPie
+              data={{
+                labels: Object.keys(incidentSources),
+                datasets: [
+                  {
+                    data: Object.values(incidentSources),
+                    backgroundColor: [
+                      '#FF6384', // Rojo
+                      '#36A2EB', // Azul
+                      '#FFCE56', // Amarillo
+                      '#4BC0C0', // Verde
+                      '#9966FF', // Púrpura
+                    ],
+                    hoverBackgroundColor: [
+                      '#FF6384',
+                      '#36A2EB',
+                      '#FFCE56',
+                      '#4BC0C0',
+                      '#9966FF',
+                    ],
+                  },
+                ],
+              }}
+              options={{
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                },
+              }}
+            />
+          </div>
         </CCardBody>
       </CCard>
     </>
