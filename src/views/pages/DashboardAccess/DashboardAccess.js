@@ -9,6 +9,7 @@ import {
   CCardHeader,
 } from '@coreui/react';
 import { CChartLine, CChartBar, CChartPie } from '@coreui/react-chartjs';
+import moment from 'moment';
 
 const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
@@ -31,10 +32,17 @@ const fetchGraphqlData = async () => {
         }
         logs {
           id
+          user {
+            id
+            name
+            username
+          }
         }
       }
       users {
         id
+        name
+        username
       }
     }
   `;
@@ -427,6 +435,62 @@ const DashboardAccess = () => {
               }}
             />
           </div>
+        </CCardBody>
+      </CCard>
+      {/* Tablero 8: Logs por Usuario */}
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Logs por Usuario</b>
+        </CCardHeader>
+        <CCardBody>
+          <CChartBar
+            data={{
+              labels: data.users.map((user) => user.username || user.id.slice(0, 8)), // Muestra el username o una porción del ID
+              datasets: [
+                {
+                  label: 'Número de Logs',
+                  backgroundColor: '#17a2b8',
+                  data: data.users.map((user) =>
+                    data.incidents.reduce(
+                      (sum, incident) =>
+                        sum +
+                        incident.logs.filter((log) => log.user?.id === user.id).length,
+                      0
+                    )
+                  ),
+                },
+              ],
+            }}
+            options={{
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                },
+              },
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Usuarios',
+                  },
+                  ticks: {
+                    autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 0,
+                  },
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Cantidad de Logs',
+                  },
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
         </CCardBody>
       </CCard>
     </>
