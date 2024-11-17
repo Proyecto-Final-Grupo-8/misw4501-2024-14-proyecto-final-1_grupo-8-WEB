@@ -139,6 +139,44 @@ const DashboardAccess = () => {
     }, {})
     : {};
 
+  const customerActivity = data.incidents.reduce((acc, incident) => {
+    const customerId = incident.customer?.id;
+    if (customerId) {
+      // Incrementar incidentes por cliente
+      acc[customerId] = acc[customerId] || { name: incident.customer.name, username: incident.customer.username, incidents: 0, logs: 0 };
+      acc[customerId].incidents += 1;
+
+      // Incrementar logs por cliente
+      acc[customerId].logs += incident.logs.length;
+    }
+    return acc;
+  }, {});
+
+  // Convertir en un arreglo y ordenar por actividad total
+  const sortedCustomers = Object.values(customerActivity)
+    .map((customer) => ({
+      ...customer,
+      totalActivity: customer.incidents + customer.logs,
+    }))
+    .sort((a, b) => b.totalActivity - a.totalActivity);
+
+  // Preparar datos para el gráfico
+  const chartData = {
+    labels: sortedCustomers.map((customer) => customer.username || customer.name),
+    datasets: [
+      {
+        label: 'Incidentes',
+        backgroundColor: '#36A2EB',
+        data: sortedCustomers.map((customer) => customer.incidents),
+      },
+      {
+        label: 'Logs',
+        backgroundColor: '#FF6384',
+        data: sortedCustomers.map((customer) => customer.logs),
+      },
+    ],
+  };
+
   return (
     <>
       <h1>Tableros de Control</h1>
@@ -558,6 +596,32 @@ const DashboardAccess = () => {
           />
         </CCardBody>
       </CCard>
+      {/* Tablero 10: Clientes Más Activos
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Clientes Más Activos</b>
+        </CCardHeader>
+        <CCardBody>
+          <CChartBar
+            data={chartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: { position: 'top' },
+              },
+              scales: {
+                x: {
+                  title: { display: true, text: 'Clientes' },
+                },
+                y: {
+                  title: { display: true, text: 'Actividad Total' },
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
+        </CCardBody>
+      </CCard> */}
     </>
   );
 };

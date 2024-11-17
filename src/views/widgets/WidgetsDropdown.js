@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-
+import { useNavigate } from 'react-router-dom';
 import {
   CRow,
   CCol,
-  CDropdown,
-  CDropdownMenu,
-  CDropdownItem,
-  CDropdownToggle,
   CWidgetStatsA,
 } from '@coreui/react';
 import { getStyle } from '@coreui/utils';
-import { CChartBar, CChartLine } from '@coreui/react-chartjs';
+import { CChartLine } from '@coreui/react-chartjs';
 import CIcon from '@coreui/icons-react';
-import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons';
+import { cilArrowBottom, cilArrowTop } from '@coreui/icons';
 
 const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
@@ -39,7 +35,7 @@ const fetchGraphqlData = async () => {
   const response = await fetch(`${apiUrl}graphql`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ query }),
   });
@@ -49,12 +45,12 @@ const fetchGraphqlData = async () => {
   }
 
   const { data } = await response.json();
-  console.log('data', data);
   return data;
-}
+};
 
 const WidgetsDropdown = (props) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const widgetChartRef1 = useRef(null);
   const widgetChartRef2 = useRef(null);
 
@@ -69,15 +65,13 @@ const WidgetsDropdown = (props) => {
       try {
         const result = await fetchGraphqlData();
         setData(result);
-        console.log('result', result.users.length);
       } catch (err) {
-        console.log(err.message);
+        console.error(err.message);
       }
     };
 
     fetchData();
   }, []);
-
 
   useEffect(() => {
     document.documentElement.addEventListener('ColorSchemeChange', () => {
@@ -99,33 +93,18 @@ const WidgetsDropdown = (props) => {
 
   const totalLogs = data.incidents.reduce((sum, incident) => sum + incident.logs.length, 0);
 
+  const handleNavigate = () => {
+    navigate('/control');
+  };
+
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
-      <CCol sm={6} xl={4} xxl={3}>
+      <CCol sm={6} xl={3}>
         <CWidgetStatsA
           color="primary"
-          value={
-            <>
-              {data.users.length}{' '}
-              <span className="fs-6 fw-normal">
-                (-12.4% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title={t('Users')}
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
-                <CIcon icon={cilOptions} />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>{t('Action')}</CDropdownItem>
-                <CDropdownItem>{t('Another action')}</CDropdownItem>
-                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
-                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={data.users.length}
+          title={t('Usuarios Totales')}
+          onClick={handleNavigate} // Redirección al hacer clic
           chart={
             <CChartLine
               ref={widgetChartRef1}
@@ -135,7 +114,7 @@ const WidgetsDropdown = (props) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Dataset 1',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-primary'),
@@ -191,31 +170,13 @@ const WidgetsDropdown = (props) => {
           }
         />
       </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
+
+      <CCol sm={6} xl={3}>
         <CWidgetStatsA
           color="info"
-          value={
-            <>
-              {data.incidents.length}{' '}
-              <span className="fs-6 fw-normal">
-                (40.9% <CIcon icon={cilArrowTop} />)
-              </span>
-            </>
-          }
-          title={t('Incidents')}
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
-                <CIcon icon={cilOptions} />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>{t('Action')}</CDropdownItem>
-                <CDropdownItem>{t('Another action')}</CDropdownItem>
-                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
-                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={data.incidents.length}
+          title={t('Incidentes Totales')}
+          onClick={handleNavigate} // Redirección al hacer clic
           chart={
             <CChartLine
               ref={widgetChartRef2}
@@ -225,7 +186,7 @@ const WidgetsDropdown = (props) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Dataset 2',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-info'),
@@ -280,31 +241,13 @@ const WidgetsDropdown = (props) => {
           }
         />
       </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
+
+      <CCol sm={6} xl={3}>
         <CWidgetStatsA
           color="warning"
-          value={
-            <>
-              {data.companies.length}{' '}
-              <span className="fs-6 fw-normal">
-                (84.7% <CIcon icon={cilArrowTop} />)
-              </span>
-            </>
-          }
-          title={t('Companies')}
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
-                <CIcon icon={cilOptions} />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>{t('Action')}</CDropdownItem>
-                <CDropdownItem>{t('Another action')}</CDropdownItem>
-                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
-                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={data.companies.length}
+          title={t('Compañias Totales')}
+          onClick={handleNavigate} // Redirección al hacer clic
           chart={
             <CChartLine
               className="mt-3"
@@ -313,7 +256,7 @@ const WidgetsDropdown = (props) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Dataset 3',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
                     data: [78, 81, 80, 45, 34, 12, 40],
@@ -352,61 +295,25 @@ const WidgetsDropdown = (props) => {
           }
         />
       </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
+
+      <CCol sm={6} xl={3}>
         <CWidgetStatsA
           color="danger"
-          value={
-            <>
-              {totalLogs}{' '}
-              <span className="fs-6 fw-normal">
-                (-23.6% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title={t('Logs')}
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
-                <CIcon icon={cilOptions} />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>{t('Action')}</CDropdownItem>
-                <CDropdownItem>{t('Another action')}</CDropdownItem>
-                <CDropdownItem>{t('Something else here...')}</CDropdownItem>
-                <CDropdownItem disabled>{t('Disabled action')}</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
+          value={totalLogs}
+          title={t('Logs Totales')}
+          onClick={handleNavigate} // Redirección al hacer clic
           chart={
-            <CChartBar
+            <CChartLine
               className="mt-3 mx-3"
               style={{ height: '70px' }}
               data={{
-                labels: [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                ],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Dataset 4',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                    barPercentage: 0.6,
+                    data: [45, 65, 55, 70, 50, 40, 60],
                   },
                 ],
               }}
@@ -419,26 +326,10 @@ const WidgetsDropdown = (props) => {
                 },
                 scales: {
                   x: {
-                    grid: {
-                      display: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    display: false,
                   },
                   y: {
-                    border: {
-                      display: false,
-                    },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    display: false,
                   },
                 },
               }}
