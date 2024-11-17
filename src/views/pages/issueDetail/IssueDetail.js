@@ -39,9 +39,11 @@ const IssueDetail = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [issueDescription, setIssueDescription] = useState('');
   const [status, setStatus] = useState('');
   const [customer, setCustomer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toastKey, setToastKey] = useState(null); // Nuevo estado para el key del toast
 
   const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
 
@@ -51,6 +53,8 @@ const IssueDetail = () => {
     setToastMessage(message);
     setToastColor(color);
     setToastVisible(true);
+    setToastKey(new Date().getTime()); // Actualiza el key del toast
+    setTimeout(() => setToastVisible(false), 3000); // 3000 ms = 3 segundos
   };
 
   const fetchLogs = async () => {
@@ -193,13 +197,13 @@ const IssueDetail = () => {
 
   const handleSaveIssue = async () => {
     setIsSubmitting(true);
-    if (!name || !description) {
+    if (!name || !issueDescription) {
       showToast('Please fill in all fields before saving.', 'danger');
       setIsSubmitting(false);
       return;
     }
 
-    const payload = { source: 'web', description };
+    const payload = { source: 'web', description: issueDescription };
 
     try {
       const response = await fetch(`${apiUrl}incident`, {
@@ -214,11 +218,12 @@ const IssueDetail = () => {
       if (!response.ok) throw new Error('Failed to create issue');
 
       const newIssue = await response.json();
-      showToast('Issue created successfully.', 'success');
+      console.log('toast');
       setModalVisible(false);
       setName('');
-      setDescription('');
+      setIssueDescription('');
       navigate(`/issues/${newIssue.incident}`);
+      showToast('Issue created successfully.', 'success');
     } catch (error) {
       console.error('Error creating issue:', error);
       showToast('Failed to create issue.', 'danger');
@@ -395,8 +400,8 @@ const IssueDetail = () => {
               <CFormLabel htmlFor="issueDescription">{t('Description')}</CFormLabel>
               <CFormTextarea
                 id="issueDescription"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={issueDescription}
+                onChange={(e) => setIssueDescription(e.target.value)}
                 placeholder={t('Enter issue description')}
               />
             </div>
@@ -415,7 +420,7 @@ const IssueDetail = () => {
       <CToaster
         push={
           toastVisible ? (
-            <CToast key={new Date().getTime()} autohide={true} visible={toastVisible} color={toastColor}>
+            <CToast key={toastKey} autohide={true} visible={toastVisible} color={toastColor}>
               <CToastHeader closeButton>
                 <strong className="me-auto">{toastColor === 'danger' ? 'Error' : 'Success'}</strong>
                 <small>{t('Now')}</small>

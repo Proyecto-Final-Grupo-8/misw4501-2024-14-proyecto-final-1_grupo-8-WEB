@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
@@ -16,10 +16,68 @@ import { CChartBar, CChartLine } from '@coreui/react-chartjs';
 import CIcon from '@coreui/icons-react';
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons';
 
+const apiUrl = 'https://backend-781163639586.us-central1.run.app/api/';
+
+const fetchGraphqlData = async () => {
+  const query = `
+    query MyQuery {
+      companies {
+        id
+      }
+      incidents {
+        id
+        logs {
+          id
+        }
+      }
+      users {
+        id
+      }
+    }
+  `;
+
+  const response = await fetch(`${apiUrl}graphql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`GraphQL error: ${response.status}`);
+  }
+
+  const { data } = await response.json();
+  console.log('data', data);
+  return data;
+}
+
 const WidgetsDropdown = (props) => {
   const { t } = useTranslation();
   const widgetChartRef1 = useRef(null);
   const widgetChartRef2 = useRef(null);
+
+  const [data, setData] = useState({
+    companies: [],
+    incidents: [],
+    users: [],
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetchGraphqlData();
+        setData(result);
+        console.log('result', result.users.length);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   useEffect(() => {
     document.documentElement.addEventListener('ColorSchemeChange', () => {
@@ -39,6 +97,8 @@ const WidgetsDropdown = (props) => {
     });
   }, [widgetChartRef1, widgetChartRef2]);
 
+  const totalLogs = data.incidents.reduce((sum, incident) => sum + incident.logs.length, 0);
+
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
       <CCol sm={6} xl={4} xxl={3}>
@@ -46,7 +106,7 @@ const WidgetsDropdown = (props) => {
           color="primary"
           value={
             <>
-              26K{' '}
+              {data.users.length}{' '}
               <span className="fs-6 fw-normal">
                 (-12.4% <CIcon icon={cilArrowBottom} />)
               </span>
@@ -136,13 +196,13 @@ const WidgetsDropdown = (props) => {
           color="info"
           value={
             <>
-              $6.200{' '}
+              {data.incidents.length}{' '}
               <span className="fs-6 fw-normal">
                 (40.9% <CIcon icon={cilArrowTop} />)
               </span>
             </>
           }
-          title={t('Income')}
+          title={t('Incidents')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -225,13 +285,13 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              2.49%{' '}
+              {data.companies.length}{' '}
               <span className="fs-6 fw-normal">
                 (84.7% <CIcon icon={cilArrowTop} />)
               </span>
             </>
           }
-          title={t('Conversion rate')}
+          title={t('Companies')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -297,13 +357,13 @@ const WidgetsDropdown = (props) => {
           color="danger"
           value={
             <>
-              44K{' '}
+              {totalLogs}{' '}
               <span className="fs-6 fw-normal">
                 (-23.6% <CIcon icon={cilArrowBottom} />)
               </span>
             </>
           }
-          title={t('Sessions')}
+          title={t('Logs')}
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
