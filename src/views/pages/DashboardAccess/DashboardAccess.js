@@ -27,6 +27,7 @@ const fetchGraphqlData = async () => {
         id
         status
         source
+        createdDate
         customer {
           id
         }
@@ -485,6 +486,70 @@ const DashboardAccess = () => {
                   title: {
                     display: true,
                     text: 'Cantidad de Logs',
+                  },
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
+        </CCardBody>
+      </CCard>
+      {/* Tablero 9: Creación de Incidentes por Fecha */}
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Creación de Incidentes por Fecha</b>
+        </CCardHeader>
+        <CCardBody>
+          <CChartLine
+            data={{
+              labels: Object.keys(
+                data.incidents.reduce((acc, incident) => {
+                  const date = moment(incident.createdDate).format('YYYY-MM-DD');
+                  acc[date] = (acc[date] || 0) + 1;
+                  return acc;
+                }, {})
+              ).sort(), // Aseguramos que las fechas estén ordenadas
+              datasets: [
+                {
+                  label: 'Incidentes Creados',
+                  backgroundColor: 'rgba(75,192,192,0.4)',
+                  borderColor: 'rgba(75,192,192,1)',
+                  pointBackgroundColor: 'rgba(75,192,192,1)',
+                  pointBorderColor: '#fff',
+                  data: Object.values(
+                    data.incidents.reduce((acc, incident) => {
+                      const date = moment(incident.createdDate).format('YYYY-MM-DD');
+                      acc[date] = (acc[date] || 0) + 1;
+                      return acc;
+                    }, {})
+                  ),
+                },
+              ],
+            }}
+            options={{
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                },
+              },
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Fecha',
+                  },
+                  ticks: {
+                    autoSkip: true,
+                    maxRotation: 45,
+                    minRotation: 0,
+                  },
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Cantidad de Incidentes',
                   },
                   beginAtZero: true,
                 },
