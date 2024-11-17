@@ -309,18 +309,75 @@ const DashboardAccess = () => {
           <b>Incidentes por Estado</b>
         </CCardHeader>
         <CCardBody>
-            <div style={{ maxWidth: '300px', margin: '0 auto' }}>
-                <CChartPie
-                    data={incidentsByStatusData}
-                    options={{
-                    plugins: {
-                        legend: {
-                        position: 'top',
-                        },
+          <div style={{ maxWidth: '300px', margin: '0 auto' }}>
+            <CChartPie
+              data={incidentsByStatusData}
+              options={{
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                },
+              }}
+            />
+          </div>
+        </CCardBody>
+      </CCard>
+      {/* Tablero 4: Logs por Incidente */}
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Logs por Incidente</b>
+        </CCardHeader>
+        <CCardBody>
+          <CChartBar
+            data={{
+              labels: data.incidents.map((incident) => `${incident.id.slice(0, 3)}...`),
+              datasets: [
+                {
+                  label: 'Número de Logs',
+                  backgroundColor: '#007bff',
+                  data: data.incidents.map((incident) => incident.logs.length),
+                },
+              ],
+            }}
+            options={{
+              plugins: {
+                legend: {
+                  display: true,
+                  position: 'top',
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      const incident = data.incidents[tooltipItem.dataIndex];
+                      return `ID: ${incident.id} - Logs: ${incident.logs.length}`;
                     },
-                    }}
-                />
-            </div>
+                  },
+                },
+              },
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Incidentes',
+                  },
+                  ticks: {
+                    autoSkip: false,
+                    maxRotation: 45,
+                    minRotation: 0,
+                  },
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Cantidad de Logs',
+                  },
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
         </CCardBody>
       </CCard>
     </>
