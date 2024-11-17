@@ -8,6 +8,7 @@ import './scss/style.scss';
 
 import './i18n';
 // Containers
+
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
 
 // Pages

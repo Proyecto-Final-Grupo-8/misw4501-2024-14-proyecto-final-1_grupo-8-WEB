@@ -23,7 +23,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Tableros',
-    to: '/',
+    to: '/control',
     icon: <CIcon icon={cilMobile} customClassName="nav-icon" />
   }
 ];
