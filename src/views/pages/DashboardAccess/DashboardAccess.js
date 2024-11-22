@@ -71,12 +71,29 @@ const DashboardAccess = () => {
     incidents: [],
     users: [],
   });
+  const [averageResolutionTime, setAverageResolutionTime] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await fetchGraphqlData();
         setData(result);
+
+        // Cálculo del tiempo promedio de resolución
+        const closedIncidents = result.incidents.filter(
+          (incident) => incident.status === 'Closed'
+        );
+        const resolutionTimes = closedIncidents.map((incident) => {
+          const createdDate = moment(incident.createdDate);
+          const modifiedDate = moment(incident.modifiedDate);
+          return modifiedDate.diff(createdDate, 'hours');
+        });
+        const totalResolutionTime = resolutionTimes.reduce((acc, time) => acc + time, 0);
+        const avgTime =
+          resolutionTimes.length > 0
+            ? totalResolutionTime / resolutionTimes.length
+            : 0;
+        setAverageResolutionTime(avgTime.toFixed(2));
       } catch (err) {
         console.error(err.message);
       }
@@ -622,6 +639,65 @@ const DashboardAccess = () => {
           />
         </CCardBody>
       </CCard> */}
+      <CCard className="mb-4">
+        <CCardHeader>
+          <b>Tiempo Promedio de Resolución</b>
+        </CCardHeader>
+        <CCardBody>
+          <h3>{t('Tiempo Promedio de Resolución:')} {averageResolutionTime} {t('horas')}</h3>
+          <CChartBar
+            data={{
+              labels: data.incidents
+                .filter((incident) => incident.status === 'Closed')
+                .map((incident, index) => `${incident.id.slice(0, 3)}...`),
+              datasets: [
+                {
+                  label: t('Tiempo de Resolución (Horas)'),
+                  backgroundColor: '#36A2EB',
+                  data: data.incidents
+                    .filter((incident) => incident.status === 'Closed')
+                    .map((incident) => {
+                      const createdDate = moment(incident.createdDate);
+                      const modifiedDate = moment(incident.modifiedDate);
+                      return modifiedDate.diff(createdDate, 'hours');
+                    }),
+                },
+              ],
+            }}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      const incident = data.incidents[tooltipItem.dataIndex];
+                      return `ID: ${incident.id} - Logs: ${incident.logs.length}`;
+                    },
+                  },
+                },
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: t('Issues'),
+                  },
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: t('Horas'),
+                  },
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
+        </CCardBody>
+      </CCard>
     </>
   );
 };
