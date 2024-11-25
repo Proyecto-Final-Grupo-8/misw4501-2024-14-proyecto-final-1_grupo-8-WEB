@@ -244,7 +244,7 @@ const Register = () => {
                     <CFormInput
                       type="password"
                       id="confirmPassword"
-                      placeholder={t('Confirm password')}
+                      placeholder={t('Confirm Password')}
                       autoComplete={t('New password')}
                     />
                   </CInputGroup>
