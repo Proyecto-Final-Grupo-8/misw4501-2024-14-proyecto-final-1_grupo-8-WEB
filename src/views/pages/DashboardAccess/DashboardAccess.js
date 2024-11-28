@@ -196,12 +196,13 @@ const DashboardAccess = () => {
 
   return (
     <>
-      <h1>Tableros de Control</h1>
+      <h1>{t('Dashboards')}</h1>
+
 
       {/* Tablero 1: Resumen General */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Resumen General</b>
+          <b>{t('General Summary')}</b>
         </CCardHeader>
         <CCardBody>
           <CRow>
@@ -210,7 +211,7 @@ const DashboardAccess = () => {
               <CWidgetStatsA
                 color="primary"
                 value={`${totalCompanies}`}
-                title={t('Compañias Totales')}
+                title={t('Total Companies')}
                 chart={
                   <CChartLine
                     style={{ height: '70px' }}
@@ -243,7 +244,7 @@ const DashboardAccess = () => {
               <CWidgetStatsA
                 color="info"
                 value={`${totalUsers}`}
-                title={t('Usuarios Totales')}
+                title={t('Total Users')}
                 chart={
                   <CChartLine
                     style={{ height: '70px' }}
@@ -276,7 +277,7 @@ const DashboardAccess = () => {
               <CWidgetStatsA
                 color="warning"
                 value={`${totalIncidents}`}
-                title={t('Incidentes Totales')}
+                title={t('Total Incidents')}
                 chart={
                   <CChartLine
                     style={{ height: '70px' }}
@@ -309,7 +310,7 @@ const DashboardAccess = () => {
               <CWidgetStatsA
                 color="danger"
                 value={`${totalLogs}`}
-                title={t('Logs Totales')}
+                title={t('Total Logs')}
                 chart={
                   <CChartLine
                     style={{ height: '70px' }}
@@ -343,7 +344,7 @@ const DashboardAccess = () => {
       {/* Tablero 2: Actividad por Empresa */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Actividad por Empresa</b>
+          <b>{t('Activity by Company')}</b>
         </CCardHeader>
         <CCardBody>
           <CChartBar
@@ -359,7 +360,7 @@ const DashboardAccess = () => {
                 x: {
                   title: {
                     display: true,
-                    text: 'Empresas',
+                    text: 'Compañias',
                   },
                 },
                 y: {
@@ -378,7 +379,7 @@ const DashboardAccess = () => {
       {/* Tablero 3: Incidentes por Estado */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Incidentes por Estado</b>
+          <b>{t('Incidents by State')}</b>
         </CCardHeader>
         <CCardBody>
           <div style={{ maxWidth: '300px', margin: '0 auto' }}>
@@ -398,7 +399,7 @@ const DashboardAccess = () => {
       {/* Tablero 4: Logs por Incidente */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Logs por Incidente</b>
+          <b>{t('Incidents by Logs')}</b>
         </CCardHeader>
         <CCardBody>
           <CChartBar
@@ -455,7 +456,7 @@ const DashboardAccess = () => {
       {/* Tablero 6: Origen de Incidentes */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Origen de Incidentes</b>
+          <b>{t('Origin of Incidents')}</b>
         </CCardHeader>
         <CCardBody>
           <div style={{ maxWidth: '300px', margin: '0 auto' }}>
@@ -496,7 +497,7 @@ const DashboardAccess = () => {
       {/* Tablero 8: Logs por Usuario */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Logs por Usuario</b>
+          <b>{t('Logs per User')}</b>
         </CCardHeader>
         <CCardBody>
           <CChartBar
@@ -552,7 +553,7 @@ const DashboardAccess = () => {
       {/* Tablero 9: Creación de Incidentes por Fecha */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Creación de Incidentes por Fecha</b>
+          <b>{t('Creating Incidents by Date')}</b>
         </CCardHeader>
         <CCardBody>
           <CChartLine
@@ -641,10 +642,10 @@ const DashboardAccess = () => {
       </CCard> */}
       <CCard className="mb-4">
         <CCardHeader>
-          <b>Tiempo Promedio de Resolución</b>
+          <b>{t('Average Resolution Time')}</b>
         </CCardHeader>
         <CCardBody>
-          <h3>{t('Tiempo Promedio de Resolución:')} {averageResolutionTime} {t('horas')}</h3>
+          <h3>{t('Average Resolution Time:')} {averageResolutionTime} {t('hours')}</h3>
           <CChartBar
             data={{
               labels: data.incidents
@@ -652,7 +653,7 @@ const DashboardAccess = () => {
                 .map((incident, index) => `${incident.id.slice(0, 3)}...`),
               datasets: [
                 {
-                  label: t('Tiempo de Resolución (Horas)'),
+                  label: t('Resolution Time (Hours)'),
                   backgroundColor: '#36A2EB',
                   data: data.incidents
                     .filter((incident) => incident.status === 'Closed')
