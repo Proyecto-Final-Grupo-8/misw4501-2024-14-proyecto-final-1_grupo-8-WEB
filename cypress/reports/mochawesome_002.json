@@ -1,0 +1,162 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-11-28T03:07:45.060Z",
+    "end": "2024-11-28T03:08:05.093Z",
+    "duration": 20033,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "a68dbe90-3804-4f07-a214-663331dd4171",
+      "title": "",
+      "fullFile": "cypress/e2e/register.cy.js",
+      "file": "cypress/e2e/register.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "112312b6-f076-4eb4-9cbb-3ddb081d89e7",
+          "title": "Pruebas del Registro",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Debería registrar exitosamente a un usuario",
+              "fullTitle": "Pruebas del Registro Debería registrar exitosamente a un usuario",
+              "timedOut": null,
+              "duration": 7365,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${apiUrl}register`, {\n  statusCode: 200,\n  body: {\n    message: 'Registration successful!'\n  }\n}).as('registerUser');\ncy.get('#username').type('testuser');\ncy.get('#name').type('Test');\ncy.get('#last_name').type('User');\ncy.get('#email').type('testuser@example.com');\ncy.get('#phone').type('1234567890');\ncy.get('#role').select('analyst');\ncy.get('#company_id').select('ee5de1ea-df79-4092-b09a-f5352d5dcb73');\ncy.get('#password').type('password123');\ncy.get('#confirmPassword').type('password123');\ncy.get('button').contains('Create Account').click();\ncy.wait('@registerUser');\ncy.get('.toast-body').should('contain', 'Registration successful!');",
+              "err": {},
+              "uuid": "bd329aed-808b-4425-8e92-e1a2c78a6f34",
+              "parentUUID": "112312b6-f076-4eb4-9cbb-3ddb081d89e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Debería mostrar error si los campos están vacíos",
+              "fullTitle": "Pruebas del Registro Debería mostrar error si los campos están vacíos",
+              "timedOut": null,
+              "duration": 2567,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('button').contains('Create Account').click();\ncy.get('.toast-body').should('contain', 'Please fill out all fields!');",
+              "err": {},
+              "uuid": "0c008e2d-3630-4027-a748-b4113023cd74",
+              "parentUUID": "112312b6-f076-4eb4-9cbb-3ddb081d89e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Debería mostrar error si las contraseñas no coinciden",
+              "fullTitle": "Pruebas del Registro Debería mostrar error si las contraseñas no coinciden",
+              "timedOut": null,
+              "duration": 4801,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#username').type('testuser');\ncy.get('#name').type('Test');\ncy.get('#last_name').type('User');\ncy.get('#email').type('testuser@example.com');\ncy.get('#phone').type('1234567890');\ncy.get('#role').select('customer');\ncy.get('#company_id').select('ee5de1ea-df79-4092-b09a-f5352d5dcb73');\ncy.get('#password').type('password123');\ncy.get('#confirmPassword').type('password1234');\ncy.get('button').contains('Create Account').click();\ncy.get('.toast-body').should('contain', 'Passwords do not match!');",
+              "err": {},
+              "uuid": "e89747b0-5ba2-467f-b4cd-a22f7d702926",
+              "parentUUID": "112312b6-f076-4eb4-9cbb-3ddb081d89e7",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Debería manejar errores del servidor",
+              "fullTitle": "Pruebas del Registro Debería manejar errores del servidor",
+              "timedOut": null,
+              "duration": 4966,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.intercept('POST', `${apiUrl}register`, {\n  statusCode: 500,\n  body: {\n    message: 'Registration failed'\n  }\n}).as('registerUserError');\ncy.get('#username').type('testuser');\ncy.get('#name').type('Test');\ncy.get('#last_name').type('User');\ncy.get('#email').type('testuser@example.com');\ncy.get('#phone').type('1234567890');\ncy.get('#role').select('customer');\ncy.get('#company_id').select('ee5de1ea-df79-4092-b09a-f5352d5dcb73');\ncy.get('#password').type('password123');\ncy.get('#confirmPassword').type('password123');\ncy.get('button').contains('Create Account').click();\ncy.wait('@registerUserError');\ncy.get('.toast-body').should('contain', 'Registration failed! Please try again.');",
+              "err": {},
+              "uuid": "d6ca4149-0567-42d2-a4c5-999721b05d59",
+              "parentUUID": "112312b6-f076-4eb4-9cbb-3ddb081d89e7",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bd329aed-808b-4425-8e92-e1a2c78a6f34",
+            "0c008e2d-3630-4027-a748-b4113023cd74",
+            "e89747b0-5ba2-467f-b4cd-a22f7d702926",
+            "d6ca4149-0567-42d2-a4c5-999721b05d59"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 19699,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

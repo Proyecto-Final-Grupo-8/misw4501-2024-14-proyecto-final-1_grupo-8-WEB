@@ -350,7 +350,7 @@ const IssueDetail = () => {
               {t('Save Changes')}
             </CButton>
             <h5 style={{ marginTop: '1rem' }}>{t('Comments')}</h5>
-            <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
+            <div className='comments-container' style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
               {logs.length > 0 ? logs.map(log => (
                 <div key={log.id} style={{ marginBottom: '1rem' }}>
                     <div style={{ fontSize: '0.9rem', color: '#555' }}>
