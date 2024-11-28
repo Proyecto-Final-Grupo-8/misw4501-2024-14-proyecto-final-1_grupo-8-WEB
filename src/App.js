@@ -7,7 +7,7 @@ import { CSpinner, useColorModes } from '@coreui/react';
 import './scss/style.scss';
 
 import './i18n';
-// Containers
+/// Containers
 
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
 
